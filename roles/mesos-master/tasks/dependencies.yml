@@ -1,0 +1,88 @@
+---
+- name: Enable haproxy ppa
+  apt_repository:
+    repo: "ppa:vbernat/haproxy-1.5"
+    state: present
+
+- name: Install java 8 repository
+  apt_repository:
+    repo: "ppa:webupd8team/java"
+
+- name: Update repository cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Auto accept oracle jdk license
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+
+- name: Install Java 8
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+
+- name: Install zookeeper
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - zookeeper
+    - zookeeperd
+
+- name: Install mesosphere
+  apt:
+    name: mesosphere
+    state: present
+
+- name: Install bamboo requirements
+  tags: bamboo
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - ruby-all-dev
+    - build-essential
+    - golang
+    - haproxy
+
+- name: Install fpm using ruby gems
+  tags: bamboo
+  command: gem install fpm
+
+- name: Fetch bamboo version {{ bamboo_release }} release from github
+  tags: bamboo
+  git:
+    repo: https://github.com/QubitProducts/bamboo.git
+    dest: /tmp/bamboo
+    version: "{{ bamboo_release }}"
+
+- name: Get bamboo dependencies
+  tags: bamboo
+  environment:
+    GOPATH: "{{ gopath }}"
+  shell: go get -d
+  args:
+    chdir: /tmp/bamboo
+
+- name: Build bamboo from source
+  tags: bamboo
+  environment:
+    GOPATH: "{{ gopath }}"
+  shell: go build bamboo.go
+  args:
+    chdir: /tmp/bamboo
+
+- name: Build bamboo .deb package
+  tags: bamboo
+  shell: ./builder/build.sh
+  args:
+    chdir: /tmp/bamboo
+
+- name: Install bamboo .deb
+  tags: bamboo
+  apt:
+    deb: "/tmp/bamboo/output/bamboo_1.0.0-1_all.deb"

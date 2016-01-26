@@ -1,0 +1,37 @@
+---
+
+- name: Add docker deb repository keys
+  apt_key:
+    keyserver: p80.pool.sks-keyservers.net
+    id: "58118E89F3A912897C070ADBF76221572C52609D"
+
+- name: Remove (legacy) docker deb repository
+  apt_repository:
+    repo: "deb http://get.docker.io/ubuntu docker main"
+    state: absent
+
+- name: Add docker deb repository
+  apt_repository:
+    repo: "deb http://apt.dockerproject.org/repo ubuntu-trusty main"
+    state: present
+
+- name: Update repository cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Remove legacy docker package
+  apt:
+    name: lxc-docker
+    state: absent
+    purge: yes
+
+- name: Install docker engine
+  apt:
+    name: docker-engine
+    state: present
+
+- name: Install mesos
+  apt:
+    name: mesos
+    state: present

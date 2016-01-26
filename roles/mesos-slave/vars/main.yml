@@ -1,0 +1,4 @@
+---
+# vars file for slave
+containerizers: 'docker,mesos'
+container_timeout: '5mins'

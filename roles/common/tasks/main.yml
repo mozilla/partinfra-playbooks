@@ -1,0 +1,9 @@
+---
+  - name: install ssh keys
+    authorized_key:
+      user: "{{ item.user }}"
+      key: "{{ item.key }}"
+    with_items:
+      - { 'user':'ubuntu','key':'https://github.com/johngian.keys' }
+      - { 'user':'ubuntu','key':'https://github.com/tannerfilip.keys' }
+      - { 'user':'ubuntu','key':'https://github.com/flamingspaz.keys' }

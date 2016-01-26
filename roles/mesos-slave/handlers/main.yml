@@ -1,0 +1,14 @@
+---
+# handlers file for slave
+
+- name: restart mesos-slave
+  service:
+    name: mesos-slave
+    enabled: yes
+    state: restarted
+
+- name: restart docker
+  service:
+    name: docker
+    enabled: yes
+    state: restarted

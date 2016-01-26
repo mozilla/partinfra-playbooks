@@ -1,0 +1,28 @@
+---
+
+#- hosts: all
+#  remote_user: ubuntu
+#  sudo: yes
+#  roles:
+#    - common
+- hosts: tag_app_mesosmaster2:&tag_env_staging
+  remote_user: ubuntu
+  tasks: []
+
+- hosts: tag_app_mesosslave2:&tag_env_staging
+  remote_user: ubuntu
+  tasks: []
+
+- hosts: tag_app_mesosmaster2:&tag_env_staging
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - mesos-common
+    - mesos-master
+
+- hosts: tag_app_mesosslave2:&tag_env_staging
+  remote_user: ubuntu
+  sudo: yes
+  roles:
+    - mesos-common
+    - mesos-slave

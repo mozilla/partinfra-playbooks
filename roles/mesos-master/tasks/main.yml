@@ -1,0 +1,103 @@
+---
+
+- include: dependencies.yml
+
+- name: update the rsyslog config
+  template:
+    src: mesos.conf.j2
+    dest: /etc/rsyslog.d/mesos.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart rsyslog
+
+- name: Setup zookeeper server ID
+  copy:
+    content: "{{ ec2_tag_serverid }}"
+    dest: /etc/zookeeper/conf/myid
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart zookeeper
+
+- name: Setup zookeeper zoo.cfg
+  template:
+    src: zoo.cfg.j2
+    dest: /etc/zookeeper/conf/zoo.cfg
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart zookeeper
+
+- name: Setup quorum for mesos-master
+  copy:
+    content: "{{ quorum }}"
+    dest: /etc/mesos-master/quorum
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mesos-master
+
+- name: Create directory for marathon configuration
+  file:
+    path: /etc/marathon/conf
+    state: directory
+  notify:
+    - restart marathon
+
+- name: Configure zookeeper addresses to marathon
+  template:
+    src: zk.j2
+    dest: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - '/etc/mesos/zk'
+    - '/etc/marathon/conf/master'
+  notify:
+    - restart marathon
+
+- name: Setup zookeeper addresses on marathon
+  template:
+    src: marathon.j2
+    dest: /etc/marathon/conf/zk
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart marathon
+
+- name: Setup hostname for mesos-master
+  copy:
+    content: "{{ inventory_hostname }}"
+    dest: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - '/etc/mesos-master/hostname'
+    - '/etc/marathon/conf/hostname'
+  notify:
+    - restart mesos-master
+    - restart marathon
+
+- name: Setup task timeout for marathon
+  copy:
+    content: "{{ task_launch_timeout }}"
+    dest: '/etc/marathon/conf/task_launch_timeout'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart marathon
+
+- name: Stop and disable mesos-slave on master nodes
+  service:
+    name: mesos-slave
+    enabled: no
+    state: stopped

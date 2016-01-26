@@ -1,0 +1,16 @@
+---
+
+  - name: Add mesosphere deb repository keys
+    apt_key:
+      keyserver: keyserver.ubuntu.com
+      id: E56151BF
+
+  - name: Install mesosphere deb repository
+    apt_repository:
+      repo: "deb http://repos.mesosphere.io/ubuntu trusty main"
+      state: present
+
+  - name: Update repository cache
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600

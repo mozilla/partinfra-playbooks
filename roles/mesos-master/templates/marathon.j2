@@ -1,0 +1,1 @@
+zk://{% for host in groups['tag_app_mesosmaster2'] %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}/marathon

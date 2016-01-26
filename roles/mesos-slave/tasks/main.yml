@@ -1,0 +1,55 @@
+---
+
+- include: dependencies.yml
+
+- name: Stop and disable zookeeper in slave nodes
+  service:
+    name: zookeeper
+    enabled: no
+    state: stopped
+
+- name: Stop and disable mesos-master in slave nodes
+  service:
+    name: mesos-master
+    enabled: no
+    state: stopped
+
+- name: Configure zookeeper addresses to marathon
+  template:
+    src: zk.j2
+    dest: /etc/mesos/zk
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart marathon
+
+- name: Setup hostname for mesos-slave
+  copy:
+    content: "{{ inventory_hostname }}"
+    dest: /etc/mesos-slave/hostname
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mesos-slave
+
+- name: Setup containerizers for mesos-slave
+  copy:
+    content: "{{ containerizers }}"
+    dest: /etc/mesos-slave/containerizers
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mesos-slave
+
+- name: Setup container timeout for mesos-slave
+  copy:
+    content: "{{ container_timeout }}"
+    dest: /etc/mesos-slave/executor_registration_timeout
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart mesos-slave

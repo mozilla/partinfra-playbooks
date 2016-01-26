@@ -1,0 +1,37 @@
+---
+# handlers file for master
+- name: restart zookeeper
+  service:
+    name: zookeeper
+    enabled: yes
+    state: restarted
+
+- name: restart mesos-master
+  service:
+    name: mesos-master
+    enabled: yes
+    state: restarted
+
+- name: restart marathon
+  service:
+    name: marathon
+    enabled: yes
+    state: restarted
+
+- name: restart bamboo
+  service:
+    name: bamboo-server
+    enabled: yes
+    state: restarted
+
+- name: restart haproxy
+  service:
+    name: haproxy
+    enabled: yes
+    state: restarted
+
+- name: restart rsyslog
+  service:
+    name: rsyslog
+    enabled: yes
+    state: restarted
