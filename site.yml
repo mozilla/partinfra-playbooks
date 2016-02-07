@@ -5,22 +5,22 @@
 #  sudo: yes
 #  roles:
 #    - common
-- hosts: tag_app_mesosmaster2:&tag_env_staging
+- hosts: tag_role_mesosmaster
   remote_user: ubuntu
   tasks: []
 
-- hosts: tag_app_mesosslave2:&tag_env_staging
+- hosts: tag_role_mesosslave
   remote_user: ubuntu
   tasks: []
 
-- hosts: tag_app_mesosmaster2:&tag_env_staging
+- hosts: tag_role_mesosmaster
   remote_user: ubuntu
   sudo: yes
   roles:
     - mesos-common
     - mesos-master
 
-- hosts: tag_app_mesosslave2:&tag_env_staging
+- hosts: tag_role_mesosslave
   remote_user: ubuntu
   sudo: yes
   roles:
