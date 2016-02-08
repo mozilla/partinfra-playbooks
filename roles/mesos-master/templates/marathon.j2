@@ -1,1 +1,5 @@
-zk://{% for host in groups['tag_app_mesosmaster2'] %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}/marathon
+{% if ec2_tag_env == "staging" %}
+zk://{% for host in groups['tag_app_mesosmaster'] and groups['tag_env_staging'] %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}/marathon
+{% elif ec2_tag_env == "production" %}
+zk://{% for host in groups['tag_app_mesosmaster'] and groups['tag_env_production'] %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}/marathon
+{% endif %}

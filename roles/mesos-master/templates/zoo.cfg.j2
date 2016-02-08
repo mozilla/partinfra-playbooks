@@ -23,11 +23,23 @@ clientPort=2181
 #server.2=zookeeper2:2888:3888
 #server.3=zookeeper3:2888:3888
 
-{% for host in groups['tag_app_mesosmaster2'] %}
+{% if ec2_tag_env == "staging" %}
+{% for host in groups['tag_app_mesosmaster'] %}
+{% if hostvars[host].ec2_tag_env == "staging" %}
 {% set ip = hostvars[host].ansible_default_ipv4['address'] %}
 {% set server_id = hostvars[host].ec2_tag_serverid %}
 server.{{ server_id }}={{ ip }}:2888:3888
+{% endif %}
 {% endfor %}
+{% elif ec2_tag_env == "production" %}
+{% for host in groups['tag_app_mesosmaster'] %}
+{% if hostvars[host].ec2_tag_env == "production" %}
+{% set ip = hostvars[host].ansible_default_ipv4['address'] %}
+{% set server_id = hostvars[host].ec2_tag_serverid %}
+server.{{ server_id }}={{ ip }}:2888:3888
+{% endif %}
+{% endfor %}
+{% endif %}
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason
