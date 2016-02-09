@@ -96,8 +96,55 @@
   notify:
     - restart marathon
 
+- name: enable http callbacks in marathon
+  copy:
+    content: "{{ marathon_event_subscriber }}"
+    dest: '/etc/marathon/conf/event_subscriber'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart marathon
+
 - name: Stop and disable mesos-slave on master nodes
   service:
     name: mesos-slave
     enabled: no
     state: stopped
+
+- name: Make sure haproxy folder exists
+  file:
+    path: /var/run/haproxy
+    state: directory
+
+- name: set GOPATH for all users
+  copy:
+    content: "export GOPATH={{ gopath }}"
+    dest: '/etc/profile.d/go-path.sh'
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Add bamboo config .json
+  template:
+    src: bamboo_config.j2
+    dest: /var/bamboo/production.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart bamboo
+    - restart haproxy
+
+- name: Configure haproxy template used by bamboo
+  template:
+    src: haproxy_template.cfg.j2
+    dest: /var/bamboo/haproxy_template.cfg
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart bamboo
+    - restart haproxy
+  tags:
+    - haproxy

@@ -9,10 +9,14 @@
 - hosts: tag_app_mesosmaster
   remote_user: ubuntu
   tasks: []
+  tags:
+    - always
 
 - hosts: tag_app_mesosslave
   remote_user: ubuntu
   tasks: []
+  tags:
+    - always
 
 - hosts: tag_app_mesosmaster
   remote_user: ubuntu
@@ -20,10 +24,16 @@
   roles:
     - mesos-common
     - mesos-master
+  vars:
+    paas_apps_fqdn: 'paas.mozilla.community'
+  tags:
+    - mesos-master
 
 - hosts: tag_app_mesosslave
   remote_user: ubuntu
   sudo: yes
   roles:
     - mesos-common
+    - mesos-slave
+  tags:
     - mesos-slave

@@ -1,0 +1,36 @@
+{
+  "Marathon": {
+    {% if ec2_tag_env == "staging" %}
+    "Endpoint": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "staging" %}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last and hostvars[host].ec2_tag_env == 'staging' %},{% endif %}{% endif %}{% endfor %}"
+    {% elif ec2_tag_env == "production" %}
+    "Endpoint": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "production" %}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last and hostvars[host].ec2_tag_env == 'production' %},{% endif %}{% endif %}{% endfor %}"
+    {% endif %}
+
+
+  },
+
+  "Bamboo": {
+    "Endpoint": "http://{{ ansible_default_ipv4['address'] }}:8000",
+    "Zookeeper": {
+      {% if ec2_tag_env == "staging" %}
+      "Host": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "staging" %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last and hostvars[host].ec2_tag_env == 'staging' %},{% endif %}{% endif %}{% endfor %}",
+      {% elif ec2_tag_env == "production" %}
+      "Host": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "production" %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last and hostvars[host].ec2_tag_env == 'production' %},{% endif %}{% endif %}{% endfor %}",
+      {% endif %}
+      "Path": "/marathon-haproxy/state",
+      "ReportingDelay": 5
+    }
+  },
+
+  "HAProxy": {
+    "TemplatePath": "/var/bamboo/haproxy_template.cfg",
+    "OutputPath": "/etc/haproxy/haproxy.cfg",
+    "ReloadCommand": "haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -D -sf $(cat /var/run/haproxy.pid)"
+  },
+
+  "StatsD": {
+    "Enabled": false,
+    "Host": "localhost:8125",
+    "Prefix": "bamboo-server.production."
+  }
+}
