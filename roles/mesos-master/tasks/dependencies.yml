@@ -49,9 +49,19 @@
     - golang
     - haproxy
 
+- name: check if the required version of bamboo is already installed
+  command: 'git describe --tags'
+  args:
+    chdir: '/tmp/bamboo'
+  register: bamboo_current_version
+  changed_when: False
+  tags:
+    - bamboo
+
 - name: Install fpm using ruby gems
   tags: bamboo
   command: gem install fpm
+  when: bamboo_current_version.stdout.find('{{ bamboo_release }}') == -1
 
 - name: Fetch bamboo version {{ bamboo_release }} release from github
   tags: bamboo
@@ -59,6 +69,7 @@
     repo: https://github.com/QubitProducts/bamboo.git
     dest: /tmp/bamboo
     version: "{{ bamboo_release }}"
+  when: bamboo_current_version.stdout.find('{{ bamboo_release }}') == -1
 
 - name: Get bamboo dependencies
   tags: bamboo
@@ -67,6 +78,7 @@
   shell: go get -d
   args:
     chdir: /tmp/bamboo
+  when: bamboo_current_version.stdout.find('{{ bamboo_release }}') == -1
 
 - name: Build bamboo from source
   tags: bamboo
@@ -75,14 +87,17 @@
   shell: go build bamboo.go
   args:
     chdir: /tmp/bamboo
+  when: bamboo_current_version.stdout.find('{{ bamboo_release }}') == -1
 
 - name: Build bamboo .deb package
   tags: bamboo
   shell: ./builder/build.sh
   args:
     chdir: /tmp/bamboo
+  when: bamboo_current_version.stdout.find('{{ bamboo_release }}') == -1
 
 - name: Install bamboo .deb
   tags: bamboo
   apt:
     deb: "/tmp/bamboo/output/bamboo_1.0.0-1_all.deb"
+  when: bamboo_current_version.stdout.find('{{ bamboo_release }}') == -1
