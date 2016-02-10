@@ -14,7 +14,11 @@
     cache_valid_time: 3600
 
 - name: Auto accept oracle jdk license
-  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+  debconf:
+    name: 'oracle-java8-installer'
+    question: 'shared/accepted-oracle-license-v1-1'
+    vtype: 'select'
+    value: 'true'
 
 - name: Install Java 8
   apt:
