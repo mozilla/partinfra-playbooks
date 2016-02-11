@@ -3,15 +3,25 @@
   apt_repository:
     repo: "ppa:vbernat/haproxy-1.5"
     state: present
+  tags:
+    - haproxy
 
 - name: Install java 8 repository
   apt_repository:
     repo: "ppa:webupd8team/java"
+  tags:
+    - zookeeper
 
 - name: Update repository cache
   apt:
     update_cache: yes
     cache_valid_time: 3600
+  tags:
+    - zookeeper
+    - bamboo
+    - haproxy
+    - mesos
+    - marathon
 
 - name: Auto accept oracle jdk license
   debconf:
@@ -19,6 +29,8 @@
     question: 'shared/accepted-oracle-license-v1-1'
     vtype: 'select'
     value: 'true'
+  tags:
+    - zookeeper
 
 - name: Install Java 8
   apt:
@@ -27,6 +39,8 @@
   with_items:
     - oracle-java8-installer
     - oracle-java8-set-default
+  tags:
+    - zookeeper
 
 - name: Install zookeeper
   apt:
@@ -35,11 +49,16 @@
   with_items:
     - zookeeper
     - zookeeperd
+  tags:
+    - zookeeper
 
 - name: Install mesosphere
   apt:
     name: mesosphere
     state: present
+  tags:
+    - mesos
+    - marathon
 
 - name: Install bamboo requirements
   tags: bamboo

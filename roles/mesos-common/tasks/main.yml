@@ -4,13 +4,19 @@
     apt_key:
       keyserver: keyserver.ubuntu.com
       id: E56151BF
+    tags:
+      - mesos
 
   - name: Install mesosphere deb repository
     apt_repository:
       repo: "deb http://repos.mesosphere.io/ubuntu trusty main"
       state: present
+    tags:
+      - mesos
 
   - name: Update repository cache
     apt:
       update_cache: yes
       cache_valid_time: 3600
+    tags:
+      - mesos

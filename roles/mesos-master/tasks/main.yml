@@ -11,6 +11,8 @@
     mode: 0644
   notify:
     - restart rsyslog
+  tags:
+    - logs
 
 - name: Setup zookeeper server ID
   copy:
@@ -21,6 +23,8 @@
     mode: 0644
   notify:
     - restart zookeeper
+  tags:
+    - zookeeper
 
 - name: Setup zookeeper zoo.cfg
   template:
@@ -31,6 +35,8 @@
     mode: 0644
   notify:
     - restart zookeeper
+  tags:
+    - zookeeper
 
 - name: Setup quorum for mesos-master
   copy:
@@ -41,6 +47,8 @@
     mode: 0644
   notify:
     - restart mesos-master
+  tags:
+    - mesos
 
 - name: Create directory for marathon configuration
   file:
@@ -48,6 +56,8 @@
     state: directory
   notify:
     - restart marathon
+  tags:
+    - marathon
 
 - name: Configure zookeeper addresses to marathon
   template:
@@ -61,6 +71,8 @@
     - '/etc/marathon/conf/master'
   notify:
     - restart marathon
+  tags:
+    - marathon
 
 - name: Setup zookeeper addresses on marathon
   template:
@@ -71,6 +83,8 @@
     mode: 0644
   notify:
     - restart marathon
+  tags:
+    - marathon
 
 - name: Setup hostname for mesos-master
   copy:
@@ -85,6 +99,8 @@
   notify:
     - restart mesos-master
     - restart marathon
+  tags:
+    - marathon
 
 - name: Setup task timeout for marathon
   copy:
@@ -95,6 +111,8 @@
     mode: 0644
   notify:
     - restart marathon
+  tags:
+    - marathon
 
 - name: enable http callbacks in marathon
   copy:
@@ -105,17 +123,23 @@
     mode: 0644
   notify:
     - restart marathon
+  tags:
+    - marathon
 
 - name: Stop and disable mesos-slave on master nodes
   service:
     name: mesos-slave
     enabled: no
     state: stopped
+  tags:
+    - mesos
 
 - name: Make sure haproxy folder exists
   file:
     path: /var/run/haproxy
     state: directory
+  tags:
+    - haproxy
 
 - name: set GOPATH for all users
   copy:
@@ -124,6 +148,8 @@
     owner: root
     group: root
     mode: 0755
+  tags:
+    - bamboo
 
 - name: Add bamboo config .json
   template:
@@ -135,6 +161,8 @@
   notify:
     - restart bamboo
     - restart haproxy
+  tags:
+    - bamboo
 
 - name: Configure haproxy template used by bamboo
   template:
@@ -148,3 +176,4 @@
     - restart haproxy
   tags:
     - haproxy
+    - bamboo

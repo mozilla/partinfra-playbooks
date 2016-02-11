@@ -7,12 +7,16 @@
     name: zookeeper
     enabled: no
     state: stopped
+  tags:
+    - zookeeper
 
 - name: Stop and disable mesos-master in slave nodes
   service:
     name: mesos-master
     enabled: no
     state: stopped
+  tags:
+    - mesos
 
 - name: Configure zookeeper addresses to marathon
   template:
@@ -23,6 +27,8 @@
     mode: 0644
   notify:
     - restart marathon
+  tags:
+    - marathon
 
 - name: Setup hostname for mesos-slave
   copy:
@@ -33,6 +39,8 @@
     mode: 0644
   notify:
     - restart mesos-slave
+  tags:
+    - mesos
 
 - name: Setup containerizers for mesos-slave
   copy:
@@ -43,6 +51,8 @@
     mode: 0644
   notify:
     - restart mesos-slave
+  tags:
+    - mesos
 
 - name: Setup container timeout for mesos-slave
   copy:
@@ -53,3 +63,5 @@
     mode: 0644
   notify:
     - restart mesos-slave
+  tags:
+    - mesos
