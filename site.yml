@@ -5,17 +5,17 @@
 #  roles:
 #    - common
 
-- hosts: tag_app_mesosmaster
+- hosts: mesos-master
   tasks: []
   tags:
     - always
 
-- hosts: tag_app_mesosslave
+- hosts: mesos-slave
   tasks: []
   tags:
     - always
 
-- hosts: tag_app_mesosmaster
+- hosts: mesos-master
   sudo: yes
   roles:
     - mesos-common
@@ -25,7 +25,7 @@
   tags:
     - mesos-master
 
-- hosts: tag_app_mesosslave
+- hosts: mesos-slave
   sudo: yes
   roles:
     - mesos-common
