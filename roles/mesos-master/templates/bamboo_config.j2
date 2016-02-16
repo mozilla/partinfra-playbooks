@@ -1,22 +1,12 @@
 {
   "Marathon": {
-    {% if ec2_tag_env == "staging" %}
-    "Endpoint": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "staging" %}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last and hostvars[host].ec2_tag_env == 'staging' %},{% endif %}{% endif %}{% endfor %}"
-    {% elif ec2_tag_env == "production" %}
-    "Endpoint": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "production" %}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last and hostvars[host].ec2_tag_env == 'production' %},{% endif %}{% endif %}{% endfor %}"
-    {% endif %}
-
-
+    "Endpoint": "{% for host in groups['mesos-master']%}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last %},{% endif %}{% endfor %}"
   },
 
   "Bamboo": {
     "Endpoint": "http://{{ ansible_default_ipv4['address'] }}:8000",
     "Zookeeper": {
-      {% if ec2_tag_env == "staging" %}
-      "Host": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "staging" %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last and hostvars[host].ec2_tag_env == 'staging' %},{% endif %}{% endif %}{% endfor %}",
-      {% elif ec2_tag_env == "production" %}
-      "Host": "{% for host in groups['tag_app_mesosmaster']%}{% if hostvars[host].ec2_tag_env == "production" %}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last and hostvars[host].ec2_tag_env == 'production' %},{% endif %}{% endif %}{% endfor %}",
-      {% endif %}
+      "Host": "{% for host in groups['mesos-master']%}{{ hostvars[host].ansible_default_ipv4['address'] }}:2181{% if not loop.last %},{% endif %}{% endfor %}",
       "Path": "/marathon-haproxy/state",
       "ReportingDelay": 5
     }

@@ -63,7 +63,7 @@ frontend http-in
 
 {% endraw %}
         # This is the default proxy criteria
-        acl {{ "{{" }} $app.EscapedId {{ "}}" }}-aclrule hdr(host) -i {{ "{{" }} Replace $app.EscapedId "::" "" -1{{ "}}" }}.{%- if ec2_tag_env == "staging" -%}staging.{% endif %}{{ paas_apps_fqdn }}
+        acl {{ "{{" }} $app.EscapedId {{ "}}" }}-aclrule hdr(host) -i {{ "{{" }} Replace $app.EscapedId "::" "" -1{{ "}}" }}.{{ paas_apps_fqdn }}
         use_backend {{ "{{" }} $app.EscapedId {{ "}}" }}-cluster if {{ "{{" }} $app.EscapedId {{ "}}" }}-aclrule
         {{ "{{" }} end {{ "}}" }} {{ "{{" }} end {{ "}}" }}
 

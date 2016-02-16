@@ -1,0 +1,8 @@
+[tag_app_mesosmasterprod]
+[tag_app_mesosslaveprod]
+
+[mesos-master:children]
+tag_app_mesosmasterprod
+
+[mesos-slave:children]
+tag_app_mesosslaveprod

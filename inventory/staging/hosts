@@ -1,0 +1,8 @@
+[tag_app_mesosmasterstaging]
+[tag_app_mesosslavestaging]
+
+[mesos-master:children]
+tag_app_mesosmasterstaging
+
+[mesos-slave:children]
+tag_app_mesosslavestaging
