@@ -1,6 +1,7 @@
 {
   "Marathon": {
-    "Endpoint": "{% for host in groups['mesos-master']%}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last %},{% endif %}{% endfor %}"
+    "Endpoint": "{% for host in groups['mesos-master']%}http://{{ hostvars[host].ansible_default_ipv4['address'] }}:8080{% if not loop.last %},{% endif %}{% endfor %}",
+    "UseEventStream": true
   },
 
   "Bamboo": {
@@ -15,7 +16,11 @@
   "HAProxy": {
     "TemplatePath": "/var/bamboo/haproxy_template.cfg",
     "OutputPath": "/etc/haproxy/haproxy.cfg",
-    "ReloadCommand": "haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -D -sf $(cat /var/run/haproxy.pid)"
+    "ReloadCommand": "haproxy -f /etc/haproxy/haproxy.cfg -p /var/run/haproxy.pid -D -sf $(cat /var/run/haproxy.pid)",
+    {% raw %}
+      "ReloadValidationCommand": "haproxy -c -f {{.}}",
+    {% endraw %}
+    "ReloadCleanupCommand": "exit 0"
   },
 
   "StatsD": {
