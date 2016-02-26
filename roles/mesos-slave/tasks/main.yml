@@ -1,6 +1,7 @@
 ---
 
 - include: dependencies.yml
+- include: mounts.yml
 
 - name: Stop and disable zookeeper in slave nodes
   service:
