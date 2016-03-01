@@ -1,0 +1,17 @@
+---
+
+- name: Ensure gluster volume mountpoint exists
+  file:
+    path: "{{ marathon_gluster_mountpoint }}"
+    state: directory
+  tags:
+    - gluster
+
+- name: Mount gluster volume for marathon apps persistent storage
+  mount:
+    name: "{{ marathon_gluster_mountpoint }}"
+    src: "{{ groups.storage[0] }}:/{{ marathon_gluster_volume }}"
+    fstype: glusterfs
+    state: mounted
+  tags:
+    - gluster
