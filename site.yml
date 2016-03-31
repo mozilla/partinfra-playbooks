@@ -29,6 +29,8 @@
   vars:
     openvpn_use_pam: yes
     openvpn_clients: [partinfra-vpn]
+  tags:
+    - openvpn
 
 - hosts: storage
   sudo: yes
