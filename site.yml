@@ -1,9 +1,10 @@
 ---
 
-#- hosts: all
-#  sudo: yes
-#  roles:
-#    - common
+- hosts: all
+  sudo: yes
+  roles:
+    - common
+    - consul
 
 - hosts: mesos-master
   tasks: []

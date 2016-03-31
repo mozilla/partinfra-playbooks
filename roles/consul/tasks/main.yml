@@ -1,0 +1,69 @@
+---
+- stat: path=/tmp/consul_{{ consul_version }}.zip
+  register: consul_ver_local
+  tags:
+    - consul
+
+- name: install unzip
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - unzip
+  tags:
+    - consul
+
+- name: download consul
+  get_url:
+    url: 'https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip'
+    dest: '/tmp/consul_{{ consul_version }}.zip'
+    owner: root
+    group: root
+    mode: 0644
+  when: consul_ver_local.stat.exists == False
+  tags:
+    - consul
+
+- name: unpack consul
+  unarchive:
+    src: '/tmp/consul_{{ consul_version }}.zip'
+    dest: '/usr/local/bin'
+    copy: no
+    owner: root
+    group: root
+    mode: 0755
+  when: consul_ver_local.stat.exists == False
+  tags:
+    - consul
+
+- name: add upstart script
+  copy:
+    src: upstart.conf
+    dest: /etc/init/consul.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - consul
+
+- name: Create required directories for consul
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/etc/consul.d/server"
+    - "/opt/consul"
+  tags:
+    - consul
+
+- name: Add basic consul config
+  template:
+    src: basic_config.json.j2
+    dest: /etc/consul.d/basic_config.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul
+  tags:
+    - consul
