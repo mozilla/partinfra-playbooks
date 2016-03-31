@@ -1,4 +1,8 @@
 [tag_app_openvpn]
+[tag_app_consul]
 
 [openvpn:children]
 tag_app_openvpn
+
+[consul:children]
+tag_app_consul
