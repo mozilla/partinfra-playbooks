@@ -1,16 +1,8 @@
-[tag_app_mesosmasterprod]
-[tag_app_mesosslaveprod]
-[tag_app_gluster]
-[tag_app_consul]
+[tag_app_mesosmasterproduction]
+[tag_app_mesosslaveproduction]
 
 [mesos-master:children]
-tag_app_mesosmasterprod
+tag_app_mesosmasterproduction
 
 [mesos-slave:children]
-tag_app_mesosslaveprod
-
-[storage:children]
-tag_app_gluster
-
-[consul:children]
-tag_app_consul
+tag_app_mesosslaveproduction

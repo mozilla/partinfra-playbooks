@@ -1,8 +1,12 @@
 [tag_app_openvpn]
 [tag_app_consul]
+[tag_app_storage]
 
 [openvpn:children]
 tag_app_openvpn
 
 [consul:children]
 tag_app_consul
+
+[storage:children]
+tag_app_storage

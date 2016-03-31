@@ -11,5 +11,5 @@
   "node_name": "{{ ec2_id }}",
   "ui": true,
   "leave_on_terminate": true,
-  "start_join": [{% for host in groups['mesos-master']%}"{{ hostvars[host].ansible_default_ipv4['address'] }}"{% if not loop.last %},{% endif %}{% endfor %}]
+  "start_join": [{% for host in groups['consul']%}"{{ hostvars[host].ansible_default_ipv4['address'] }}"{% if not loop.last %},{% endif %}{% endfor %}]
 }
