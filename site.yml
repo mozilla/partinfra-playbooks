@@ -21,6 +21,15 @@
   tags:
     - always
 
+- hosts: openvpn
+  sudo: yes
+  roles:
+    - openvpn-firewall
+    - Stouts.openvpn
+  vars:
+    openvpn_use_pam: yes
+    openvpn_clients: [partinfra-vpn]
+
 - hosts: storage
   sudo: yes
   roles:

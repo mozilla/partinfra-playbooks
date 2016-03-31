@@ -1,0 +1,24 @@
+---
+- name: Enable IPv4 forwarding
+  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes
+
+- name: Enable ufw firewall
+  ufw: state=enabled
+
+- name: Enable ufw logging
+  ufw: logging=on
+
+- name: Change DEFAULT_FORWARD_POLICY to ACCEPT
+  lineinfile: dest=/etc/default/ufw regexp='^DEFAULT_FORWARD_POLICY=' line='DEFAULT_FORWARD_POLICY="ACCEPT"'
+
+- name: Masquerade traffic from VPN to the world
+  template: src=templates/before.rules dest=/etc/ufw/before.rules mode=0640 owner=root group=root
+
+- name: Allow SSH connections
+  ufw: rule=allow port=22 proto=tcp
+
+- name: Allow OpenVPN connections
+  ufw: rule=allow port=1194 proto=udp
+
+- name: Reload ufw
+  ufw: state=reloaded
