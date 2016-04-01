@@ -1,16 +1,8 @@
 [tag_app_mesosmasterstaging]
 [tag_app_mesosslavestaging]
-[tag_app_gluster]
-[tag_app_consul]
 
 [mesos-master:children]
 tag_app_mesosmasterstaging
 
 [mesos-slave:children]
 tag_app_mesosslavestaging
-
-[storage:children]
-tag_app_gluster
-
-[consul:children]
-tag_app_consul

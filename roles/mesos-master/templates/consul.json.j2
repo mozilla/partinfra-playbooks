@@ -17,22 +17,6 @@
     ]
   },
   {
-    "name": "bamboo",
-    "id": "bamboo-{{ ec2_id }}",
-    "tags": ["mesos", "{{ ec2_tag_env }}"],
-    "port": 8000,
-    "enableTagOverride": false,
-    "checks": [
-      {
-      "id": "bamboo-api-{{ ec2_id }}",
-      "name": "Bamboo API on port 8080",
-      "http": "http://{{ ansible_default_ipv4['address'] }}:8000/status",
-      "interval": "10s",
-      "timeout": "4s"
-      }
-    ]
-  },
-  {
     "name": "mesos",
     "id": "mesos-{{ ec2_id }}",
     "tags": ["mesos", "{{ ec2_tag_env }}"],
