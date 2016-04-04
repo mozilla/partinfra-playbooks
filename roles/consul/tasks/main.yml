@@ -4,12 +4,23 @@
   tags:
     - consul
 
-- name: install unzip
+- name: install packages needed for consul
   apt:
     name: "{{ item }}"
     state: present
   with_items:
     - unzip
+    - dnsmasq
+  tags:
+    - consul
+
+- name: add upstart script
+  copy:
+    src: upstart.conf
+    dest: /etc/init/consul.conf
+    owner: root
+    group: root
+    mode: 0644
   tags:
     - consul
 
@@ -35,16 +46,8 @@
   when: consul_ver_local.stat.exists == False
   tags:
     - consul
-
-- name: add upstart script
-  copy:
-    src: upstart.conf
-    dest: /etc/init/consul.conf
-    owner: root
-    group: root
-    mode: 0644
-  tags:
-    - consul
+  notify:
+    - restart consul
 
 - name: Create required directories for consul
   file:
@@ -67,3 +70,15 @@
     - restart consul
   tags:
     - consul
+
+- name: add dnsmasq config
+  copy:
+    content: "server=/consul/{{ ansible_default_ipv4['address'] }}#8600"
+    dest: /etc/dnsmasq.d/10-consul
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - consul
+  notify:
+    - restart dnsmasq
