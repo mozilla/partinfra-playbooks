@@ -3,7 +3,7 @@
   {
     "name": "marathon",
     "id": "marathon-{{ ec2_id }}",
-    "tags": ["mesos", "{{ ec2_tag_env }}"],
+    "tags": ["marathon", "mesos", "{{ ec2_tag_env }}"],
     "port": 8080,
     "enableTagOverride": false,
     "checks": [
@@ -19,7 +19,7 @@
   {
     "name": "mesos",
     "id": "mesos-{{ ec2_id }}",
-    "tags": ["mesos", "{{ ec2_tag_env }}"],
+    "tags": ["mesos-master", "mesos", "{{ ec2_tag_env }}"],
     "port": 5050,
     "enableTagOverride": false,
     "checks": [
@@ -35,7 +35,7 @@
   {
     "name": "zookeeper",
     "id": "zookeeper-{{ ec2_id }}",
-    "tags": ["mesos", "{{ ec2_tag_env }}"],
+    "tags": ["zookeeper", "mesos", "{{ ec2_tag_env }}"],
     "port": 2181,
     "enableTagOverride": false,
     "checks": [

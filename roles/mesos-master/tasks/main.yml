@@ -152,3 +152,37 @@
     - restart consul
   tags:
     - consul
+
+- name: Add consul-template upstart script
+  template:
+    src: consul_template_upstart.j2
+    dest: /etc/init/consul-template.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - consul-template
+
+- name: Add consul-template configuration
+  template:
+    src: consul_template_config.j2
+    dest: /etc/consul-template.d/config
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul-template
+  tags:
+    - consul-template
+
+- name: Add haproxy config template
+  copy:
+    src: haproxy.ctmpl
+    dest: /etc/consul-template.d/templates/haproxy.ctmpl
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul-template
+  tags:
+    - consul-template
