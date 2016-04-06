@@ -20,5 +20,8 @@
 - name: Allow OpenVPN connections
   ufw: rule=allow port=1194 proto=udp
 
+- name: Allow DNS connections
+  ufw: rule=allow port=53 proto=udp src=10.8.0.0/24
+
 - name: Reload ufw
   ufw: state=reloaded
