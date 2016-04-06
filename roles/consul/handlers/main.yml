@@ -3,3 +3,9 @@
     name: consul
     enabled: yes
     state: restarted
+
+- name: restart dnsmasq
+  service:
+    name: dnsmasq
+    enabled: yes
+    state: restarted
