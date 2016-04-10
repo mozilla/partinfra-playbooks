@@ -26,9 +26,6 @@
   roles:
     - openvpn-firewall
     - Stouts.openvpn
-  vars:
-    openvpn_use_pam: yes
-    openvpn_clients: [partinfra-vpn]
   tags:
     - openvpn
 
