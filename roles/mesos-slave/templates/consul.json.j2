@@ -1,0 +1,19 @@
+{
+  "services": [
+  {
+    "name": "mesos-slave",
+    "id": "mesos-slave-{{ ec2_id }}",
+    "tags": ["mesos-slave", "mesos", "{{ ec2_tag_env }}"],
+    "port": 5051,
+    "enableTagOverride": false,
+    "checks": [
+      {
+      "id": "mesos-slave-api-{{ ec2_id }}",
+      "name": "Mesos API on port 5051",
+      "http": "http://{{ ansible_default_ipv4['address'] }}:5051/health",
+      "interval": "10s",
+      "timeout": "4s"
+      }
+    ]
+  }
+]}

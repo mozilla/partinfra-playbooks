@@ -12,3 +12,9 @@
     name: docker
     enabled: yes
     state: restarted
+
+- name: restart consul
+  service:
+    name: consul
+    enabled: yes
+    state: restarted

@@ -84,3 +84,15 @@
     user: 'root'
   tags:
     - docker
+
+- name: Setup consul service and check definitions
+  template:
+    src: consul.json.j2
+    dest: /etc/consul.d/mesos-slave.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul
+  tags:
+    - consul
