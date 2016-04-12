@@ -7,3 +7,9 @@
       - { 'user':'ubuntu','key':'https://github.com/johngian.keys' }
       - { 'user':'ubuntu','key':'https://github.com/tannerfilip.keys' }
       - { 'user':'ubuntu','key':'https://github.com/flamingspaz.keys' }
+
+  - name: Add env var with AWS `env` tag value
+    lineinfile:
+      dest: /etc/environment
+      regexp: '^AWS_ENV'
+      line: 'AWS_ENV={{ ec2_tag_env }}'
