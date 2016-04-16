@@ -59,3 +59,55 @@
   tags:
     - mesos
     - marathon
+
+- stat:
+    path: "/tmp/consul_template_{{ consul_template_version }}.zip"
+  register: consul_template_ver_local
+  tags:
+    - consul-template
+
+- name: Install unzip
+  apt:
+    name: unzip
+    state: present
+  tags:
+    - consul-template
+
+- name: Install haproxy
+  apt:
+    name: "haproxy"
+    state: present
+  tags:
+    - consul-template
+
+- name: Download consul-template
+  get_url:
+    url: 'https://releases.hashicorp.com/consul-template/{{ consul_template_version }}/consul-template_{{ consul_template_version}}_linux_amd64.zip'
+    dest: '/tmp/consul_template_{{ consul_template_version }}.zip'
+    owner: root
+    group: root
+    mode: 0644
+  when: consul_template_ver_local.stat.exists == False
+  tags:
+    - consul-template
+
+- name: Unpack consul-template
+  unarchive:
+    src: '/tmp/consul_template_{{ consul_template_version }}.zip'
+    dest: '/usr/local/bin'
+    copy: no
+    owner: root
+    group: root
+    mode: 0755
+  when: consul_template_ver_local.stat.exists == False
+  tags:
+    - consul-template
+
+- name: Create required directories for consul-template
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/etc/consul-template.d/templates"
+  tags:
+    - consul-template

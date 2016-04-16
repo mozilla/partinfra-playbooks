@@ -5,3 +5,4 @@ task_launch_timeout: 300000
 bamboo_release: 'v0.2.15'
 gopath: '/usr/share/go'
 marathon_event_subscriber: 'http_callback'
+consul_template_version: '0.14.0'

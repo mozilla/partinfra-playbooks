@@ -41,3 +41,9 @@
     name: consul
     enabled: yes
     state: restarted
+
+- name: restart consul-template
+  service:
+    name: consul-template
+    enabled: yes
+    state: restarted
