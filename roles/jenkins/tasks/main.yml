@@ -6,6 +6,22 @@
   tags:
     - jenkins
 
+- name: Remove (legacy) docker deb repository
+  apt_repository:
+    repo: "deb http://get.docker.io/ubuntu docker main"
+    state: absent
+  tags:
+    - mesos
+    - docker
+
+- name: Add docker deb repository
+  apt_repository:
+    repo: "deb http://apt.dockerproject.org/repo ubuntu-trusty main"
+    state: present
+  tags:
+    - mesos
+    - docker
+
 - name: Update repository cache
   apt:
     update_cache: yes
@@ -15,10 +31,19 @@
 
 - name: Install apt dependencies
   apt:
-    name: docker
+    name: "{{ item }}"
     state: present
   tags:
     - jenkins
+  with_items:
+    - docker
+    - docker-engine
+    - python-pip
+    - python-dev
+
+- name: install docker-py with pip
+  pip:
+    name: docker-py
 
 - name: Ensure jenkins volume folder exists
   file:
@@ -27,6 +52,15 @@
     owner: 1000
   tags:
     - jenkins
+
+- name: start docker
+  service:
+    name: docker
+    enabled: yes
+    state: started
+  tags:
+    - jenkins
+    - docker
 
 - name: Run jenkins docker
   docker:
