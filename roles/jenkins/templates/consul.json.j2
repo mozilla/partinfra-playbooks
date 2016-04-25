@@ -1,0 +1,19 @@
+{
+  "services": [
+  {
+    "name": "jenkins",
+    "id": "jenkins-{{ ec2_id }}",
+    "tags": ["jenkins", "{{ ec2_tag_env }}"],
+    "port": 80,
+    "enableTagOverride": false,
+    "checks": [
+      {
+      "id": "jenkins-{{ ec2_id }}",
+      "name": "Jenkins on port 80",
+      "http": "http://{{ ansible_default_ipv4['address'] }}",
+      "interval": "10s",
+      "timeout": "4s"
+      }
+    ]
+  }
+]}
