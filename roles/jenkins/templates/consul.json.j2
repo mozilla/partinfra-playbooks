@@ -10,7 +10,7 @@
       {
       "id": "jenkins-{{ ec2_id }}",
       "name": "Jenkins on port 80",
-      "http": "http://{{ ansible_default_ipv4['address'] }}",
+      "tcp": "{{ ansible_default_ipv4['address'] }}:80",
       "interval": "10s",
       "timeout": "4s"
       }
