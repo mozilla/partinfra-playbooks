@@ -24,6 +24,7 @@
   file:
     path: "/opt/jenkins"
     state: directory
+    owner: 1000
   tags:
     - jenkins
 
