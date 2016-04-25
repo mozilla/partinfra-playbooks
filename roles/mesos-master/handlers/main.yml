@@ -18,12 +18,6 @@
     enabled: yes
     state: restarted
 
-- name: restart bamboo
-  service:
-    name: bamboo-server
-    enabled: yes
-    state: restarted
-
 - name: restart haproxy
   service:
     name: haproxy

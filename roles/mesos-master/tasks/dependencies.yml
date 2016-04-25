@@ -18,7 +18,6 @@
     cache_valid_time: 3600
   tags:
     - zookeeper
-    - bamboo
     - haproxy
     - mesos
     - marathon
