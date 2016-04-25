@@ -1,0 +1,55 @@
+---
+- name: Add docker deb repository keys
+  apt_key:
+    keyserver: p80.pool.sks-keyservers.net
+    id: "58118E89F3A912897C070ADBF76221572C52609D"
+  tags:
+    - jenkins
+
+- name: Update repository cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - jenkins
+
+- name: Install apt dependencies
+  apt:
+    name: docker
+    state: present
+  tags:
+    - jenkins
+
+- name: Ensure jenkins volume folder exists
+  file:
+    path: "/opt/jenkins"
+    state: directory
+  tags:
+    - jenkins
+
+- name: Run jenkins docker
+  docker:
+    name: jenkins
+    image: partinfra/jenkins
+    state: started
+    ports:
+      - "80:8080"
+      - "5000:5000"
+    volumes:
+      - "/opt/jenkins:/var/jenkins_home"
+    restart_policy: always
+  tags:
+    - jenkins
+
+- name: Setup consul service and check definitions
+  template:
+    src: consul.json.j2
+    dest: /etc/consul.d/jenkins.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul
+  tags:
+    - jenkins
+    - consul

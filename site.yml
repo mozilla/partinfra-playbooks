@@ -57,3 +57,10 @@
     marathon_gluster_mountpoint: '/srv/marathon'
   tags:
     - mesos-slave
+
+- hosts: jenkins
+  sudo: yes
+  roles:
+    - jenkins
+  tags:
+    - jenkins
