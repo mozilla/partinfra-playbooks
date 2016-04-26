@@ -1,4 +1,37 @@
 ---
+- name: Install GlusterFS PPA
+  apt_repository:
+    repo: "ppa:gluster/glusterfs-3.7"
+  tags:
+    - gluster
+    - jenkins
+
+- name: Install GlusterFS client
+  apt:
+    name: "glusterfs-client"
+    state: present
+  tags:
+    - gluster
+    - jenkins
+
+- name: Ensure gluster volume mountpoint exists
+  file:
+    path: "{{ jenkins_gluster_mountpoint }}"
+    state: directory
+  tags:
+    - gluster
+    - jenkins
+
+- name: Mount gluster volume for jenkins persistent storage
+  mount:
+    name: "{{ jenkins_gluster_mountpoint }}"
+    src: "{{ groups.storage[0] }}:/{{ jenkins_gluster_volume }}"
+    fstype: glusterfs
+    state: mounted
+  tags:
+    - gluster
+    - jenkins
+
 - name: Add docker deb repository keys
   apt_key:
     keyserver: p80.pool.sks-keyservers.net
@@ -67,6 +100,7 @@
     name: jenkins
     image: partinfra/jenkins
     state: started
+    pull: always
     ports:
       - "80:8080"
       - "5000:5000"
@@ -75,6 +109,7 @@
     restart_policy: always
   tags:
     - jenkins
+    - startjenkins
 
 - name: Setup consul service and check definitions
   template:
