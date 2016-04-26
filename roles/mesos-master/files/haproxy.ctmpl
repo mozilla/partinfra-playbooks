@@ -47,6 +47,14 @@ frontend http-in
         {{- if and (.Tags.Contains "public") (.Tags.Contains $aws_env) }}
         acl {{ .Name }}-aclrule hdr(host) -i {{.Name}}.{{ template "PAAS_FQDN" }}
         use_backend {{ .Name }}-backend if {{ .Name }}-aclrule
+
+        {{- $app_ha_rule := (print "apps/" .Name "/" $aws_env "/haproxy-rule") -}}
+        {{- $app_ha_fqdn := (key_or_default $app_ha_rule "") -}}
+        {{- if $app_ha_fqdn }}
+        acl {{ .Name }}-custom-aclrule hdr(host) -i {{ $app_ha_fqdn }}
+        use_backend {{ .Name }}-backend if {{ .Name }}-custom-aclrule
+        {{ end }}
+        {{ end -}}
         {{ end -}}
         {{- end -}}
 
