@@ -121,5 +121,5 @@
   notify:
     - restart consul
   tags:
-    - jenkinsconsul
+    - jenkins
     - consul
