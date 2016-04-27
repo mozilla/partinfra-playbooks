@@ -56,7 +56,6 @@ frontend http-in
         {{ end }}
         {{ end -}}
         {{ end -}}
-        {{- end -}}
 
 {{ range services -}}
 {{- if and (.Tags.Contains "public") (.Tags.Contains $aws_env) }}
