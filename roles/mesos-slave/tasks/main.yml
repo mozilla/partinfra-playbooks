@@ -19,7 +19,7 @@
   tags:
     - mesos
 
-- name: Configure zookeeper addresses to marathon
+- name: Configure zookeeper addresses to mesos-slave
   template:
     src: zk.j2
     dest: /etc/mesos/zk
@@ -27,9 +27,9 @@
     group: root
     mode: 0644
   notify:
-    - restart marathon
+    - restart mesos-slave
   tags:
-    - marathon
+    - mesos
 
 - name: Setup hostname for mesos-slave
   copy:
