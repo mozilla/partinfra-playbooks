@@ -12,7 +12,7 @@
   lineinfile: dest=/etc/default/ufw regexp='^DEFAULT_FORWARD_POLICY=' line='DEFAULT_FORWARD_POLICY="ACCEPT"'
 
 - name: Masquerade traffic from VPN to the world
-  template: src=templates/before.rules dest=/etc/ufw/before.rules mode=0640 owner=root group=root
+  template: src=before.rules dest=/etc/ufw/before.rules mode=0640 owner=root group=root
 
 - name: Allow SSH connections
   ufw: rule=allow port=22 proto=tcp
