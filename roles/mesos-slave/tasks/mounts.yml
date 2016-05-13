@@ -15,3 +15,11 @@
     state: mounted
   tags:
     - gluster
+
+- name: Create directories for marathon volumes
+  file:
+    path: "{{ marathon_gluster_mountpoint }}/{{ item }}"
+    state: directory
+  with_items: "{{ marathon_app_volumes }}"
+  tags:
+    - gluster
