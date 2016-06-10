@@ -36,7 +36,6 @@
   vars:
     gluster_volumes:
       - marathon
-      - jenkins
 
 - hosts: mesos-master
   sudo: yes
@@ -66,5 +65,5 @@
   tags:
     - jenkins
   vars:
-    jenkins_gluster_volume: 'jenkins'
+    jenkins_gluster_volume: 'partinfra_jenkins'
     jenkins_gluster_mountpoint: '/opt/jenkins'
