@@ -1,0 +1,5 @@
+postfix_hostname: "{{ ansible_hostname }}.mozilla.community"
+postfix_aliases:
+  - { user: "root", alias: "hostmaster@mozilla.community" }
+postfix_relayhost: "email-smtp.us-east-1.amazonaws.com"
+postfix_relaytls: true
