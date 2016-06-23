@@ -5,6 +5,7 @@ marathon_app_volumes:
   - "mainwp-production"
   - "switzerland-staging"
   - "switzerland-production"
+  - "wordpress-takebacktheweb-production"
   - "wordpress-albania-staging"
   - "wordpress-albania-production"
   - "wordpress-botswana-staging"
