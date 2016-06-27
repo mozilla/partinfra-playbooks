@@ -5,6 +5,7 @@
   roles:
     - common
     - consul
+    - tersmitten.postfix
 
 - hosts: mesos-master
   tasks: []
