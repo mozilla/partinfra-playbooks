@@ -1,4 +1,5 @@
 postfix_hostname: "ops.mozilla.community"
+postfix_mailname: "ops.mozilla.community"
 postfix_aliases:
   - { user: "root", alias: "hostmaster@mozilla.community" }
 postfix_relayhost: "email-smtp.us-east-1.amazonaws.com"
