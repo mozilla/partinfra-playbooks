@@ -28,5 +28,13 @@
       - nmap
       - netcat-openbsd
       - rsync
+      - apticron
     tags:
       - common
+
+  - name: Configure apticron
+    template:
+      src: apticron.conf.j2
+      dest: /etc/apticron/apticron.conf
+    tags:
+      - apticron
