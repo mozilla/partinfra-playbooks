@@ -13,3 +13,20 @@
       dest: /etc/environment
       regexp: '^AWS_ENV'
       line: 'AWS_ENV={{ ec2_tag_env }}'
+
+  - name: Install common system packages
+    apt:
+      name: "{{ item }}"
+    with_items:
+      - emacs24-nox
+      - tree
+      - tcpdump
+      - mailx
+      - htop
+      - sysstat
+      - pv
+      - nmap
+      - netcat-openbsd
+      - rsync
+    tags:
+      - common
