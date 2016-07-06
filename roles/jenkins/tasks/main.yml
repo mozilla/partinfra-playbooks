@@ -99,7 +99,7 @@
   docker:
     name: jenkins
     image: partinfra/jenkins
-    state: started
+    state: reloaded
     pull: always
     ports:
       - "80:8080"
