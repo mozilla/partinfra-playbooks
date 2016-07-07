@@ -45,6 +45,7 @@ Get Involved!
 
 * [Stouts.OpenVPN](https://galaxy.ansible.com/Stouts/openvpn/)
 * [tersmitten.postfix](https://galaxy.ansible.com/tersmitten/postfix/)
+* [jnv.unattended-upgrades](https://galaxy.ansible.com/jnv/unattended-upgrades/)
 
 ### Issues
 
