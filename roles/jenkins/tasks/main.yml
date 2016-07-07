@@ -95,6 +95,11 @@
     - jenkins
     - docker
 
+- name: pull jenkins image
+  docker_image:
+    name: partinfra/jenkins
+    tag: "{{ jenkins_release }}"
+
 - name: Run jenkins docker
   docker:
     name: jenkins
