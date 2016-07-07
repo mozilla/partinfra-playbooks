@@ -98,7 +98,7 @@
 - name: Run jenkins docker
   docker:
     name: jenkins
-    image: partinfra/jenkins
+    image: partinfra/jenkins:{{ jenkins_release }}
     state: reloaded
     pull: always
     ports:
