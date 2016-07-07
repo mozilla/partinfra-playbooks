@@ -43,8 +43,6 @@
   roles:
     - mesos-common
     - mesos-master
-  vars:
-    paas_apps_fqdn: 'paas.mozilla.community'
   tags:
     - mesos-master
 
