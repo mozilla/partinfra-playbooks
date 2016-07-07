@@ -95,10 +95,15 @@
     - jenkins
     - docker
 
+# when adding the tag to just the tag param it still tries to pull the latest tag.
+# Adding the tag to both the name and tag params seems to solve the issue.
 - name: pull jenkins image
   docker_image:
-    name: partinfra/jenkins
+    name: partinfra/jenkins:{{ jenkins_release }}
     tag: "{{ jenkins_release }}"
+  tags:
+    - jenkins
+    - startjenkins
 
 - name: Run jenkins docker
   docker:
