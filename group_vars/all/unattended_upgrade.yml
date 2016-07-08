@@ -1,0 +1,4 @@
+apticron_email: 'hostmaster@mozilla.community'
+unattended_origins_patterns:
+  - 'origin=Ubuntu,archive=${distro_codename}-security,label=Ubuntu'
+unattended_mail: 'hostmaster@mozilla.community'
