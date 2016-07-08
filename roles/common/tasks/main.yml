@@ -21,7 +21,7 @@
       - emacs24-nox
       - tree
       - tcpdump
-      - mailx
+      - bsd-mailx
       - htop
       - sysstat
       - pv

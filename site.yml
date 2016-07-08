@@ -3,9 +3,9 @@
 - hosts: all
   sudo: yes
   roles:
+    - tersmitten.postfix
     - common
     - consul
-    - tersmitten.postfix
     - jnv.unattended-upgrades
 
 - hosts: mesos-master
