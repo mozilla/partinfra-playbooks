@@ -18,3 +18,5 @@ marathon_app_volumes:
   - "wordpress-lithuania-staging"
   - "wordpress-sweden-staging"
   - "wordpress-sweden-production"
+  - "wordpress-innoprize-staging"
+  - "wordpress-innoprize-production"
