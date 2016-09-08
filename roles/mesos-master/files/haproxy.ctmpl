@@ -43,7 +43,23 @@ frontend http-in
         # Redirect http to https
         acl is_http hdr(X-Forwarded-Proto) http
         redirect scheme https code 301 if is_http
-        {{ range services -}}
+
+        # Set up redirects from Consul k/v
+        {{- $redirect_301 := (print "redirects/" $aws_env "/301") -}}
+        {{- $redirect_302 := (print "redirects/" $aws_env "/302") }}
+        # Permanent redirects
+        {{- range ls $redirect_301 }}
+        acl redirect-{{ .Key }} hdr(host) -i {{ .Key }}
+        http-request redirect prefix http://{{ .Value }} code 301 if redirect-{{ .Key }}
+        {{ end }}
+        # Temporary redirects
+        {{- range ls $redirect_302 }}
+        acl redirect-{{ .Key }} hdr(host) -i {{ .Key }}
+        http-request redirect prefix http://{{ .Value }} code 302 if redirect-{{ .Key }}
+        {{ end }}
+
+        # Services
+        {{- range services -}}
         {{- if and (.Tags.Contains "public") (.Tags.Contains $aws_env) }}
         acl {{ .Name }}-aclrule hdr(host) -i {{.Name}}.{{ template "PAAS_FQDN" }}
         use_backend {{ .Name }}-backend if {{ .Name }}-aclrule
