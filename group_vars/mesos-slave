@@ -20,3 +20,5 @@ marathon_app_volumes:
   - "wordpress-sweden-production"
   - "wordpress-innoprize-staging"
   - "wordpress-innoprize-production"
+  - "wordpress-ops-production"
+  - "wordpress-ops-staging"
