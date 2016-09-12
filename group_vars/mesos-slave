@@ -22,3 +22,5 @@ marathon_app_volumes:
   - "wordpress-innoprize-production"
   - "wordpress-ops-production"
   - "wordpress-ops-staging"
+  - "wordpress-mozillaireland-production"
+  - "wordpress-mozillaireland-staging"
