@@ -1,4 +1,10 @@
 ---
+  - name: Get extra EC2 facts
+    action: ec2_facts
+    tags:
+      - storage
+      - efs
+
   - name: install ssh keys
     authorized_key:
       user: "{{ item.user }}"

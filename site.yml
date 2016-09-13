@@ -52,9 +52,6 @@
   roles:
     - mesos-common
     - mesos-slave
-  vars:
-    marathon_gluster_volume: 'marathon'
-    marathon_gluster_mountpoint: '/srv/marathon'
   tags:
     - mesos-slave
 

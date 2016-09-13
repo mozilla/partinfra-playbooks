@@ -24,3 +24,8 @@ marathon_app_volumes:
   - "wordpress-ops-staging"
   - "wordpress-mozillaireland-production"
   - "wordpress-mozillaireland-staging"
+marathon_gluster_volume: 'marathon'
+marathon_gluster_mountpoint: '/srv/marathon'
+marathon_efs_mountpoint: '/srv/marathon-efs'
+marathon_staging_filesystem_id: 'fs-669b552f'
+marathon_production_filesystem_id: 'fs-799b5530'
