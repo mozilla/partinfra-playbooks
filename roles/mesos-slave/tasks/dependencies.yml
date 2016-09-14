@@ -4,6 +4,7 @@
   apt_repository:
     repo: "ppa:gluster/glusterfs-3.7"
   tags:
+    - storage
     - gluster
 
 - name: Install GlusterFS client
@@ -11,7 +12,16 @@
     name: "glusterfs-client"
     state: present
   tags:
+    - storage
     - gluster
+
+- name: Install NFS client
+  apt:
+    name: "nfs-common"
+    state: present
+  tags:
+    - storage
+    - efs
 
 - name: Add docker deb repository keys
   apt_key:

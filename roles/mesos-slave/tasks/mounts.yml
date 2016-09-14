@@ -5,6 +5,7 @@
     path: "{{ marathon_gluster_mountpoint }}"
     state: directory
   tags:
+    - storage
     - gluster
 
 - name: Mount gluster volume for marathon apps persistent storage
@@ -14,7 +15,42 @@
     fstype: glusterfs
     state: mounted
   tags:
+    - storage
     - gluster
+
+- name: Ensure EFS mountpoint exists
+  file:
+    path: "{{ marathon_efs_mountpoint }}"
+    state: directory
+  tags:
+    - storage
+    - efs
+
+- name: Set EFS Filesystem ID for staging
+  set_fact:
+    marathon_filesystem_id: "{{ marathon_staging_filesystem_id }}"
+  when: ec2_tag_env == "staging"
+  tags:
+    - storage
+    - efs
+
+- name: Set EFS Filesystem ID for production
+  set_fact:
+    marathon_filesystem_id: "{{ marathon_production_filesystem_id }}"
+  when: ec2_tag_env == "production"
+  tags:
+    - storage
+    - efs
+
+- name: Mount EFS target for persistent app storage
+  mount:
+    name: "{{ marathon_efs_mountpoint }}"
+    src: "{{ ansible_ec2_placement_availability_zone }}.{{ marathon_filesystem_id }}.efs.{{ ec2_region }}.amazonaws.com:/"
+    fstype: nfs4
+    state: mounted
+  tags:
+    - storage
+    - efs
 
 - name: Create directories for marathon volumes
   file:
@@ -22,4 +58,14 @@
     state: directory
   with_items: "{{ marathon_app_volumes }}"
   tags:
+    - storage
     - gluster
+
+- name: Create directories for marathon-efs volumes
+  file:
+    path: "{{ marathon_efs_mountpoint }}/{{ item }}"
+    state: directory
+  with_items: "{{ marathon_app_volumes }}"
+  tags:
+    - storage
+    - efs
