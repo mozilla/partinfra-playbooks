@@ -1,0 +1,15 @@
+description "Consul-template server process"
+
+start on (local-filesystems and net-device-up IFACE=eth0)
+stop on runlevel [!12345]
+
+respawn
+
+setuid root
+setgid root
+
+script
+    . /etc/environment
+    export AWS_ENV
+    exec consul-template -config /etc/consul-template.d/config
+end script

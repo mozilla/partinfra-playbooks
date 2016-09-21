@@ -1,0 +1,128 @@
+---
+
+- name: Enable haproxy ppa
+  apt_repository:
+    repo: "ppa:vbernat/haproxy-1.5"
+    state: present
+  tags:
+    - haproxy
+    - admin
+
+- name: Update repository cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - admin
+
+- stat:
+    path: "/tmp/consul_template_{{ consul_template_version }}.zip"
+  register: consul_template_ver_local
+  tags:
+    - admin
+    - consul-template
+
+- name: Install unzip
+  apt:
+    name: unzip
+    state: present
+  tags:
+    - admin
+    - consul-template
+
+- name: Download consul-template
+  get_url:
+    url: 'https://releases.hashicorp.com/consul-template/{{ consul_template_version }}/consul-template_{{ consul_template_version}}_linux_amd64.zip'
+    dest: '/tmp/consul_template_{{ consul_template_version }}.zip'
+    owner: root
+    group: root
+    mode: 0644
+  when: consul_template_ver_local.stat.exists == False
+  tags:
+    - admin
+    - consul-template
+
+- name: Unpack consul-template
+  unarchive:
+    src: '/tmp/consul_template_{{ consul_template_version }}.zip'
+    dest: '/usr/local/bin'
+    copy: no
+    owner: root
+    group: root
+    mode: 0755
+  when: consul_template_ver_local.stat.exists == False
+  tags:
+    - admin
+    - consul-template
+
+- name: Create required directories for consul-template
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/etc/consul-template.d/templates"
+  tags:
+    - admin
+    - consul-template
+
+- name: Install haproxy
+  apt:
+    name: "haproxy"
+    state: present
+  tags:
+    - admin
+    - haproxy
+
+- name: Make sure haproxy folder exists
+  file:
+    path: /var/run/haproxy
+    state: directory
+  tags:
+    - admin
+    - haproxy
+
+- name: Ensure haproxy starts on boot
+  service:
+    name: haproxy
+    enabled: yes
+    state: started
+  tags:
+    - admin
+    - haproxy
+
+- name: Add consul-template upstart script
+  template:
+    src: consul_template_upstart.j2
+    dest: /etc/init/consul-template.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - admin
+    - consul-template
+
+- name: Add consul-template configuration
+  template:
+    src: consul_template_config.j2
+    dest: /etc/consul-template.d/config
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul-template
+  tags:
+    - admin
+    - consul-template
+
+- name: Add haproxy config template
+  copy:
+    src: haproxy.ctmpl
+    dest: /etc/consul-template.d/templates/haproxy.ctmpl
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul-template
+  tags:
+    - admin
+    - consul-template
