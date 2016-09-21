@@ -9,6 +9,9 @@ tag_app_openvpn
 [consul:children]
 tag_app_consul
 
+[sensu:children]
+tag_app_consul
+
 [storage:children]
 tag_app_storage
 

@@ -1,0 +1,19 @@
+{
+    "sensu": [
+    {% for host in groups['sensu'] %}
+        {
+            "name": "{{ ec2_region }}",
+            "host": "{{ hostvars[host].ansible_default_ipv4['address'] }}",
+            "ssl": false,
+            "port": 4567,
+            "path": "",
+            "timeout": 5000
+        }{% if not loop.last %},{% endif %}
+    {% endfor %}
+    ],
+    "uchiwa": {
+        "port": 3000,
+        "stats": 10,
+        "refresh": 10000
+    }
+}
