@@ -1,0 +1,77 @@
+---
+- name: Install Uchiwa dashboard
+  apt:
+    name: "uchiwa"
+    state: present
+    update_cache: yes
+    cache_valid_time: 600
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+
+- name: Ensure the sensu configuration directory exists
+  file:
+    path: /etc/sensu/conf.d
+    state: directory
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+
+- name: Add Sensu API configuration
+  copy:
+    src: api.json
+    dest: /etc/sensu/conf.d/api.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart sensu-api
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+
+- name: Add Uchiwa configuration
+  template:
+    src: uchiwa.json.j2
+    dest: /etc/sensu/uchiwa.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart uchiwa
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+
+- name: Ensure Uchiwa, sensu-api and sensu-server starts on boot
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - uchiwa
+    - sensu-server
+    - sensu-api
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+
+- name: Setup consul service and check definitions
+  template:
+    src: consul.json.j2
+    dest: /etc/consul.d/sensu.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+    - consul

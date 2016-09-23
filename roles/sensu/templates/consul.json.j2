@@ -1,0 +1,26 @@
+{
+  "services": [
+  {
+    "name": "sensu",
+    "id": "sensu-{{ ec2_id }}",
+    "tags": ["sensu", "{{ ec2_tag_env }}"],
+    "port": 4567,
+    "enableTagOverride": false,
+    "checks": [
+      {
+        "id": "sensu-api-{{ ec2_id }}",
+        "name": "Sensu API on port 4567",
+        "tcp": "{{ ansible_default_ipv4['address'] }}:4567",
+        "interval": "10s",
+        "timeout": "4s"
+      },
+      {
+        "id": "sensu-uchiwa-{{ ec2_id }}",
+        "name": "Uchiwa on port 3000",
+        "http": "http://{{ ansible_default_ipv4['address'] }}:3000/health",
+        "interval": "10s",
+        "timeout": "4s"
+      }
+    ]
+  }
+]}

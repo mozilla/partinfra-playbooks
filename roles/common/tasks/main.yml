@@ -43,4 +43,86 @@
       src: apticron.conf.j2
       dest: /etc/apticron/apticron.conf
     tags:
+      - monitoring
       - apticron
+
+  - name: Add Sensu GPG key
+    apt_key:
+      url: "https://sensu.global.ssl.fastly.net/apt/pubkey.gpg"
+      state: present
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+      - sensu-master
+
+  - name: Add Sensu apt repo
+    apt_repository:
+      repo: "deb https://sensu.global.ssl.fastly.net/apt sensu main"
+      state: present
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+      - sensu-master
+
+  - name: Install Sensu
+    apt:
+      name: "sensu"
+      state: present
+      update_cache: yes
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+      - sensu-master
+
+  - name: Ensure the sensu configuration directory exists
+    file:
+      path: /etc/sensu/conf.d
+      state: directory
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+      - sensu-master
+
+  - name: Add Sensu transport configuration
+    copy:
+      src: transport.json
+      dest: /etc/sensu/conf.d/transport.json
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart sensu-client
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+      - sensu-master
+
+  - name: Add Sensu Redis configuration
+    template:
+      src: redis.json.j2
+      dest: /etc/sensu/conf.d/redis.json
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart sensu-client
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+      - sensu-master
+
+  - name: Ensure sensu-client starts on boot
+    service:
+      name: sensu-client
+      enabled: yes
+      state: started
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client

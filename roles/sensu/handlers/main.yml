@@ -1,0 +1,20 @@
+---
+- name: restart sensu-server
+  service:
+    name: sensu-server
+    state: restarted
+
+- name: restart sensu-api
+  service:
+    name: sensu-api
+    state: restarted
+
+- name: restart uchiwa
+  service:
+    name: uchiwa
+    state: restarted
+
+- name: restart consul
+  service:
+    name: consul
+    state: restarted
