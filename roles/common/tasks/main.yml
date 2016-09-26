@@ -117,6 +117,20 @@
       - sensu-client
       - sensu-master
 
+  - name: Add Sensu client configuration
+    template:
+      src: client.json.j2
+      dest: /etc/sensu/conf.d/client.json
+      owner: root
+      group: root
+      mode: 0644
+    notify:
+      - restart sensu-client
+    tags:
+      - monitoring
+      - sensu
+      - sensu-client
+
   - name: Ensure sensu-client starts on boot
     service:
       name: sensu-client
