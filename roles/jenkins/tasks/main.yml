@@ -1,35 +1,31 @@
 ---
-- name: Install GlusterFS PPA
-  apt_repository:
-    repo: "ppa:gluster/glusterfs-3.7"
-  tags:
-    - gluster
-    - jenkins
-
-- name: Install GlusterFS client
+- name: Install NFS client
   apt:
-    name: "glusterfs-client"
+    name: "nfs-common"
     state: present
   tags:
-    - gluster
+    - storage
+    - efs
     - jenkins
 
-- name: Ensure gluster volume mountpoint exists
+- name: Ensure EFS volume mountpoint exists
   file:
-    path: "{{ jenkins_gluster_mountpoint }}"
+    path: "{{ jenkins_efs_mountpoint }}"
     state: directory
   tags:
-    - gluster
+    - storage
+    - efs
     - jenkins
 
-- name: Mount gluster volume for jenkins persistent storage
+- name: Mount EFS target for persistent app storage
   mount:
-    name: "{{ jenkins_gluster_mountpoint }}"
-    src: "{{ groups.storage[0] }}:/{{ jenkins_gluster_volume }}"
-    fstype: glusterfs
+    name: "{{ jenkins_efs_mountpoint }}"
+    src: "{{ ansible_ec2_placement_availability_zone }}.{{ jenkins_filesystem_id }}.efs.{{ ec2_region }}.amazonaws.com:/"
+    fstype: nfs4
     state: mounted
   tags:
-    - gluster
+    - storage
+    - efs
     - jenkins
 
 - name: Add docker deb repository keys

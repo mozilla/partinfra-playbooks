@@ -70,5 +70,5 @@
   tags:
     - jenkins
   vars:
-    jenkins_gluster_volume: 'partinfra_jenkins'
-    jenkins_gluster_mountpoint: '/opt/jenkins'
+    jenkins_efs_mountpoint: '/opt/jenkins'
+    jenkins_filesystem_id: 'fs-1766af5e'
