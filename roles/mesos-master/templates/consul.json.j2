@@ -3,7 +3,7 @@
   {
     "name": "marathon",
     "id": "marathon-{{ ec2_id }}",
-    "tags": ["marathon", "mesos", "{{ ec2_tag_env }}"],
+    "tags": ["marathon", "mesos", "admin", "{{ ec2_tag_env }}"],
     "port": 8080,
     "enableTagOverride": false,
     "checks": [
@@ -43,6 +43,22 @@
       "id": "zookeeper-api-{{ ec2_id }}",
       "name": "Zookeeper on port 2181",
       "tcp": "127.0.0.1:2181",
+      "interval": "10s",
+      "timeout": "4s"
+      }
+    ]
+  },
+  {
+    "name": "chronos",
+    "id": "chronos-{{ ec2_id }}",
+    "tags": ["chronos", "mesos", "admin", "{{ ec2_tag_env }}"],
+    "port": 4400,
+    "enableTagOverride": false,
+    "checks": [
+      {
+      "id": "chronos-{{ ec2_id }}",
+      "name": "Chronos on port 4400",
+      "http": "http://{{ ansible_default_ipv4['address'] }}:4400/ping",
       "interval": "10s",
       "timeout": "4s"
       }
