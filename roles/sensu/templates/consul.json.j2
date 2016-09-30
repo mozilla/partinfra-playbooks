@@ -22,5 +22,19 @@
         "timeout": "4s"
       }
     ]
-  }
+  },
+  {
+    "name": "uchiwa",
+    "id": "uchiwa-{{ ec2_id }}",
+    "tags": ["uchiwa", "{{ ec2_tag_env }}"],
+    "port": 3000,
+    "enableTagOverride": false,
+    "checks": [
+      {
+        "id": "uchiwa-{{ ec2_id }}",
+        "name": "Uchiwa on port 3000",
+        "http": "http://{{ ansible_default_ipv4['address'] }}:3000/health",
+        "interval": "10s",
+        "timeout": "4s"
+      }
 ]}
