@@ -8,6 +8,18 @@
     - consul
     - jnv.unattended-upgrades
 
+- hosts: admin
+  sudo: yes
+  roles:
+    - admin
+    - jenkins
+  tags:
+    - admin
+    - jenkins
+  vars:
+    jenkins_efs_mountpoint: '/opt/jenkins'
+    jenkins_filesystem_id: 'fs-1766af5e'
+
 - hosts: mesos-master
   tasks: []
   tags:
@@ -62,13 +74,3 @@
     - mesos-slave
   tags:
     - mesos-slave
-
-- hosts: jenkins
-  sudo: yes
-  roles:
-    - jenkins
-  tags:
-    - jenkins
-  vars:
-    jenkins_efs_mountpoint: '/opt/jenkins'
-    jenkins_filesystem_id: 'fs-1766af5e'
