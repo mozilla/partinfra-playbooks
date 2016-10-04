@@ -1,6 +1,7 @@
 [tag_app_openvpn]
 [tag_app_consul]
 [tag_app_storage]
+[tag_Name_admin]
 
 [openvpn:children]
 tag_app_openvpn
