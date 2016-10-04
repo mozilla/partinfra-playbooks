@@ -49,7 +49,6 @@ frontend http-in
 {{- if .Tags.Contains "admin" }}
 backend {{ .Name }}-backend
         balance leastconn
-        option httpclose
         option forwardfor
         {{ range service .Name }}
         server {{ .ID }} {{ .NodeAddress }}:{{ .Port }} check inter 3000
