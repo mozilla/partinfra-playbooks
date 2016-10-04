@@ -9,8 +9,8 @@
     "checks": [
       {
       "id": "jenkins-{{ ec2_id }}",
-      "name": "Jenkins on port 80",
-      "http": "http://{{ ansible_default_ipv4['address'] }}:8081",
+      "name": "Jenkins on port 8081",
+      "http": "http://{{ ansible_default_ipv4['address'] }}:8081/robots.txt",
       "interval": "10s",
       "timeout": "4s"
       }
