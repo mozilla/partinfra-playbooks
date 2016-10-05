@@ -3,7 +3,8 @@
     "name": "{{ ec2_id }}",
     "address": "{{ ansible_default_ipv4['address'] }}",
     "subscriptions": [
-      "{{ ec2_tag_app }}"
+      "{{ ec2_tag_app }}",
+      "common"
     ],
     "socket": {
       "bind": "127.0.0.1",

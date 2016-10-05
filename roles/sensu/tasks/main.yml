@@ -19,15 +19,37 @@
     - sensu
     - sensu-master
 
-- name: Add Sensu API configuration
+- name: Add Sensu API configuration & checks
   copy:
-    src: api.json
-    dest: /etc/sensu/conf.d/api.json
+    src: "{{ item }}"
+    dest: /etc/sensu/conf.d/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - api.json
+    - cpu_load_check.json
+    - cpu_load_metrics.json
+    - mem_percent_check.json
+    - default_handler.json
+  notify:
+    - restart sensu-api
+    - restart sensu-server
+  tags:
+    - monitoring
+    - sensu
+    - sensu-master
+
+- name: Add VictorOps configuration
+  template:
+    src: victorops_handler.json.j2
+    dest: /etc/sensu/conf.d/victorops_handler.json
     owner: root
     group: root
     mode: 0644
   notify:
-    - restart sensu-api
+  - restart sensu-server
+  - restart sensu-api
   tags:
     - monitoring
     - sensu

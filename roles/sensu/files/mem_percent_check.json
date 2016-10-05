@@ -1,0 +1,12 @@
+{
+  "checks":
+  {
+    "mem_percent_check": {
+      "command": "check-memory-percent.rb -w 80 -c 90",
+      "subscribers": [
+        "common"
+      ],
+      "interval": 60
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "handlers": {
+    "default": {
+      "type": "set",
+      "handlers": [
+        "victorops"
+      ]
+    }
+  }
+}
