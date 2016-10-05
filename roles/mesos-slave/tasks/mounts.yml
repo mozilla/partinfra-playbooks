@@ -8,16 +8,6 @@
     - storage
     - gluster
 
-- name: Mount gluster volume for marathon apps persistent storage
-  mount:
-    name: "{{ marathon_gluster_mountpoint }}"
-    src: "{{ groups.storage[0] }}:/{{ marathon_gluster_volume }}"
-    fstype: glusterfs
-    state: mounted
-  tags:
-    - storage
-    - gluster
-
 - name: Ensure EFS mountpoint exists
   file:
     path: "{{ marathon_efs_mountpoint }}"
@@ -51,15 +41,6 @@
   tags:
     - storage
     - efs
-
-- name: Create directories for marathon volumes
-  file:
-    path: "{{ marathon_gluster_mountpoint }}/{{ item }}"
-    state: directory
-  with_items: "{{ marathon_app_volumes }}"
-  tags:
-    - storage
-    - gluster
 
 - name: Create directories for marathon-efs volumes
   file:
