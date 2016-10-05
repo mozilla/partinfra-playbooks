@@ -50,7 +50,10 @@ frontend http-in
 backend {{ .Name }}-backend
         balance leastconn
         option forwardfor
-        {{ range service .Name }}
+        {{ range service (print "production" "." .Name) }}
+        server {{ .ID }} {{ .NodeAddress }}:{{ .Port }} check inter 3000
+        {{- end -}}
+        {{ range service (print "shared" "." .Name) }}
         server {{ .ID }} {{ .NodeAddress }}:{{ .Port }} check inter 3000
         {{- end }}
 {{ end -}}
