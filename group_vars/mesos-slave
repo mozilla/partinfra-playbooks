@@ -24,6 +24,7 @@ marathon_app_volumes:
   - "wordpress-ops-staging"
   - "wordpress-mozillaireland-production"
   - "wordpress-mozillaireland-staging"
+  - "jenkins"
 marathon_gluster_volume: 'marathon'
 marathon_gluster_mountpoint: '/srv/marathon'
 marathon_efs_mountpoint: '/srv/marathon-efs'
