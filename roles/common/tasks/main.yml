@@ -35,6 +35,7 @@
       - netcat-openbsd
       - rsync
       - apticron
+      - build-essential
     tags:
       - common
 
@@ -129,6 +130,22 @@
     tags:
       - monitoring
       - sensu
+      - sensu-client
+
+  - name: Install sensu plugins
+    gem:
+      name: "{{ item }}"
+      state: latest
+      executable: /opt/sensu/embedded/bin/gem
+      user_install: no
+    with_items:
+      - sensu-plugins-disk-checks
+      - sensu-plugins-load-checks
+      - sensu-plugins-memory-checks
+      - sensu-plugins-consul
+      - sensu-plugins-victorops
+    tags:
+      - monitoring
       - sensu-client
 
   - name: Ensure sensu-client starts on boot

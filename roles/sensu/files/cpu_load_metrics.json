@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "load_metrics": {
+      "type": "metric",
+      "command": "metrics-load.rb",
+      "subscribers": [
+        "common"
+      ],
+      "interval": 10,
+      "handle": false
+    }
+  }
+}
