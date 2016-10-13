@@ -1,13 +1,5 @@
 ---
 
-- name: Ensure gluster volume mountpoint exists
-  file:
-    path: "{{ marathon_gluster_mountpoint }}"
-    state: directory
-  tags:
-    - storage
-    - gluster
-
 - name: Ensure EFS mountpoint exists
   file:
     path: "{{ marathon_efs_mountpoint }}"

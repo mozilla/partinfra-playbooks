@@ -51,14 +51,6 @@
   tags:
     - openvpn
 
-- hosts: storage
-  sudo: yes
-  roles:
-    - storage
-  vars:
-    gluster_volumes:
-      - marathon
-
 - hosts: mesos-master
   sudo: yes
   roles:

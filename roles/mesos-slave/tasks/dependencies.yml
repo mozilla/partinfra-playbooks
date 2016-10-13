@@ -1,16 +1,17 @@
 ---
 
-- name: Install GlusterFS PPA
+- name: remove GlusterFS PPA
   apt_repository:
     repo: "ppa:gluster/glusterfs-3.7"
+    state: absent
   tags:
     - storage
     - gluster
 
-- name: Install GlusterFS client
+- name: remove GlusterFS client
   apt:
     name: "glusterfs-client"
-    state: present
+    state: absent
   tags:
     - storage
     - gluster
