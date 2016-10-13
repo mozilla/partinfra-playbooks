@@ -1,0 +1,19 @@
+{
+  "services": [
+  {
+    "name": "jenkins-public",
+    "id": "jenkins-public-{{ ec2_id }}",
+    "tags": ["jenkins-public", "{{ ec2_tag_env }}"],
+    "port": 8080,
+    "enableTagOverride": false,
+    "checks": [
+      {
+      "id": "jenkins-public-{{ ec2_id }}",
+      "name": "jenkins-public on port 8080",
+      "http": "http://{{ ansible_default_ipv4['address'] }}:8080/robots.txt",
+      "interval": "10s",
+      "timeout": "4s"
+      }
+    ]
+  }
+]}

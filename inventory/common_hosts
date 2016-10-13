@@ -1,5 +1,6 @@
 [tag_app_openvpn]
 [tag_app_consul]
+[tag_Name_jenkins_public]
 [tag_Name_admin]
 
 [openvpn:children]
@@ -13,3 +14,6 @@ tag_app_consul
 
 [admin:children]
 tag_Name_admin
+
+[jenkins-public:children]
+tag_Name_jenkins_public

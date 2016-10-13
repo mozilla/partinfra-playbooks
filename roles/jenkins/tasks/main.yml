@@ -101,7 +101,7 @@
     - jenkins
     - startjenkins
 
-- name: Run jenkins docker
+- name: Run internal jenkins docker
   docker:
     name: jenkins
     image: partinfra/jenkins:{{ jenkins_release }}
@@ -109,15 +109,35 @@
     pull: always
     ports:
       - "8081:8080"
-      - "5000:5000"
+      - "50000:50000"
     volumes:
       - "/opt/jenkins:/var/jenkins_home"
     restart_policy: always
   tags:
     - jenkins
     - startjenkins
+  when:
+    - ec2_tag_Name == "admin"
+    - ec2_tag_app == "jenkins"
 
-- name: Setup consul service and check definitions
+- name: Run public jenkins docker
+  docker:
+    name: jenkins
+    image: partinfra/jenkins:{{ jenkins_release }}
+    state: reloaded
+    pull: always
+    net: "host"
+    volumes:
+      - "/opt/jenkins:/var/jenkins_home"
+    restart_policy: always
+  tags:
+    - jenkins
+    - startjenkins
+  when:
+    - ec2_tag_Name == "jenkins-public"
+    - ec2_tag_app == "jenkins"
+
+- name: Setup internal consul service and check definitions
   template:
     src: consul.json.j2
     dest: /etc/consul.d/jenkins.json
@@ -129,3 +149,22 @@
   tags:
     - jenkins
     - consul
+  when:
+    - ec2_tag_Name == "admin"
+    - ec2_tag_app == "jenkins"
+
+- name: Setup public consul service and check definitions
+  template:
+    src: consul_public.json.j2
+    dest: /etc/consul.d/jenkins.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul
+  tags:
+    - jenkins
+    - consul
+  when:
+    - ec2_tag_Name == "jenkins-public"
+    - ec2_tag_app == "jenkins"
