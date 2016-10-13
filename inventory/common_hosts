@@ -1,6 +1,5 @@
 [tag_app_openvpn]
 [tag_app_consul]
-[tag_app_storage]
 [tag_Name_admin]
 
 [openvpn:children]
@@ -11,9 +10,6 @@ tag_app_consul
 
 [sensu:children]
 tag_app_consul
-
-[storage:children]
-tag_app_storage
 
 [admin:children]
 tag_Name_admin

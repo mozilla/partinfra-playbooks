@@ -36,10 +36,6 @@ Get Involved!
 * OpenVPN
   * ``openvpn-firewall``
      * Configures ``iptables`` rules for our VPN traffic.
-* Storage
-  * Configures our [GlusterFS](https://www.gluster.org/) cluster.
-  * Provides a distributed and scalable storage solution.
-  * We mainly use it as persistent storage backing our docker instances.
 
 ### Ansible galaxy dependencies
 
