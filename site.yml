@@ -20,6 +20,16 @@
     jenkins_efs_mountpoint: '/opt/jenkins'
     jenkins_filesystem_id: 'fs-1766af5e'
 
+- hosts: jenkins-public
+  sudo: yes
+  roles:
+    - jenkins
+  tags:
+    - jenkins
+  vars:
+    jenkins_efs_mountpoint: '/opt/jenkins'
+    jenkins_filesystem_id: 'fs-3f1dd776'
+
 - hosts: mesos-master
   tasks: []
   tags:
