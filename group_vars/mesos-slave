@@ -24,6 +24,8 @@ marathon_app_volumes:
   - "wordpress-ops-staging"
   - "wordpress-mozillaireland-production"
   - "wordpress-mozillaireland-staging"
+  - "wordpress-mozillaromania-staging"
+  - "wordpress-mozillaromania-production"
   - "jenkins"
 marathon_efs_mountpoint: '/srv/marathon-efs'
 marathon_staging_filesystem_id: 'fs-669b552f'
