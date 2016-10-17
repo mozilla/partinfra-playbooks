@@ -38,23 +38,21 @@ frontend http-in
         redirect scheme https code 301 if is_http
 
         # Services
-        {{- range services -}}
-        {{- if .Tags.Contains "admin" }}
-        acl {{ .Name }}-aclrule hdr(host) -i {{.Name}}.{{ template "SERVICES_FQDN" }}
-        use_backend {{ .Name }}-backend if {{ .Name }}-aclrule
-        {{ end -}}
-        {{ end -}}
+        {{ range $srv := key "admin-proxy/services" | parseJSON }}
+        acl {{ $srv.name }}-aclrule hdr(host) -i {{ $srv.name }}.{{ template "SERVICES_FQDN" }}
+        use_backend {{ $srv.name }}-backend if {{ $srv.name }}-aclrule
+        {{ end }}
 
-{{ range services -}}
-{{- if .Tags.Contains "admin" }}
-backend {{ .Name }}-backend
+{{ range $srv := key "admin-proxy/services" | parseJSON }}
+backend {{ $srv.name }}-backend
         balance leastconn
         option forwardfor
-        {{ range service (print "production" "." .Name) }}
-        server {{ .ID }} {{ .NodeAddress }}:{{ .Port }} check inter 3000
-        {{- end -}}
-        {{ range service (print "shared" "." .Name) }}
+
+        {{ range service $srv.query -}}
+        {{ if $srv.port -}}
+        server {{ .ID }} {{ .NodeAddress }}:{{ $srv.port }} check inter 3000
+        {{ else }}
         server {{ .ID }} {{ .NodeAddress }}:{{ .Port }} check inter 3000
         {{- end }}
-{{ end -}}
-{{- end -}}
+        {{- end }}
+{{ end }}
