@@ -24,6 +24,7 @@
   sudo: yes
   roles:
     - jenkins
+    - docker-registry
   tags:
     - jenkins
   vars:
