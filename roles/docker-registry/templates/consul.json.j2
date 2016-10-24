@@ -1,0 +1,19 @@
+{
+"services": [
+    {
+        "name": "docker-registry",
+        "id": "registry-{{ ec2_id }}",
+        "tags": ["registry", "admin", "{{ ec2_tag_env }}"],
+        "port": 5000,
+        "enableTagOverride": false,
+        "checks": [
+            {
+                "id": "registry-{{ ec2_id }}",
+                "name": "Docker Registry on port 5000",
+                "http": "http://{{ ansible_default_ipv4['address'] }}:5000/v2",
+                "interval": "10s",
+                "timeout": "4s"
+            }
+        ]
+    }
+]}

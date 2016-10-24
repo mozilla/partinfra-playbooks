@@ -1,0 +1,39 @@
+---
+
+- name: pull docker registry image
+  docker_image:
+    name: registry
+  tags:
+    - registry
+
+- name: Run docker registry
+  docker:
+    name: registry
+    image: registry
+    state: reloaded
+    pull: always
+    ports:
+      - "5000:5000"
+    restart_policy: always
+    env:
+      - SETTINGS_FLAVOR:s3
+      - AWS_BUCKET:partinfra-docker-registry
+      - AWS_REGION:us-west-1
+      - AWS_KEY:"{{ registry_access_key }}"
+      - AWS_SECRET:"{{ registry_secret_key }}"
+      - STORAGE_PATH:/registry
+      - SEARCH_BACKEND:sqlalchemy
+  tags:
+    - registry
+
+- name: add consul service definition
+  template:
+    src: consul.json.j2
+    dest: /etc/consul.d/registry.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+      - restart consul
+  tags:
+      - registry
