@@ -13,6 +13,7 @@
   roles:
     - admin
     - jenkins
+    - docker-registry
   tags:
     - admin
     - jenkins
@@ -24,7 +25,6 @@
   sudo: yes
   roles:
     - jenkins
-    - docker-registry
   tags:
     - jenkins
   vars:
