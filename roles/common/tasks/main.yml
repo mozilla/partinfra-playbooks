@@ -36,6 +36,7 @@
       - rsync
       - apticron
       - build-essential
+      - ntp
     tags:
       - common
 
@@ -157,3 +158,11 @@
       - monitoring
       - sensu
       - sensu-client
+
+  - name: Enable and start ntpd
+    service:
+      name: ntp
+      enabled: yes
+      state: started
+    tags:
+      - common
