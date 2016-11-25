@@ -32,6 +32,7 @@
     - cpu_load_metrics.json
     - mem_percent_check.json
     - default_handler.json
+    - disk_usage_check.json
   notify:
     - restart sensu-api
     - restart sensu-server

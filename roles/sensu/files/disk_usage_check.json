@@ -1,0 +1,12 @@
+{
+  "checks":
+  {
+    "disk_usage_check": {
+      "command": "check-disk-usage.rb -w 80 -c 95",
+      "subscribers": [
+        "common"
+      ],
+      "interval": 60
+    }
+  }
+}
