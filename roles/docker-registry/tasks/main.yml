@@ -16,12 +16,12 @@
       - "5000:5000"
     restart_policy: always
     env:
-      SETTINGS_FLAVOR: s3
-      AWS_BUCKET: partinfra-docker-registry
-      AWS_REGION: us-west-1
-      AWS_KEY: "{{ registry_access_key }}"
-      AWS_SECRET: "{{ registry_secret_key }}"
-      STORAGE_PATH: /registry
+      REGISTRY_STORAGE: s3
+      REGISTRY_STORAGE_S3_BUCKET: partinfra-private-docker-registry
+      REGISTRY_STORAGE_S3_REGION: us-east-1
+      REGISTRY_STORAGE_S3_ACCESSKEY: "{{ registry_access_key }}"
+      REGISTRY_STORAGE_S3_SECRETKEY: "{{ registry_secret_key }}"
+      REGISTRY_STORAGE_S3_ROOTDIRECTORY: /registry
       SEARCH_BACKEND: sqlalchemy
   tags:
     - registry
