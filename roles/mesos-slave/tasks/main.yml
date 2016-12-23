@@ -3,6 +3,13 @@
 - include: dependencies.yml
 - include: mounts.yml
 
+- name: install ssh keys just for slaves
+  authorized_key:
+    user: "{{ item.user }}"
+    key: "{{ item.key }}"
+  with_items:
+    - { 'user':'ubuntu','key':'https://github.com/LeoMcA.keys' }
+
 - name: Stop and disable zookeeper in slave nodes
   service:
     name: zookeeper
