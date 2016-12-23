@@ -1,0 +1,35 @@
+---
+- name: Add logstash apt repository key
+  apt_key:
+    keyserver: "p80.pool.sks-keyservers.net"
+    id: "0D69E11F12BDBA077B3726AB4E1F799AA4FF2279"
+  tags:
+    - logstash
+
+- name: Install logstash apt repository
+  apt_repository:
+    repo: "deb https://artifacts.elastic.co/packages/5.x/apt stable main"
+  tags:
+    - logstash
+
+- name: Update repository cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - logstash
+
+- name: Install logstash package
+  apt:
+    name: logstash
+    state: present
+  tags:
+    - logstash
+
+- name: Enable logstash service
+  service:
+    name: logstash
+    state: started
+    enabled: yes
+  tags:
+    - logstash

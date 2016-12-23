@@ -37,6 +37,7 @@
       - apticron
       - build-essential
       - ntp
+      - apt-transport-https
     tags:
       - common
 
