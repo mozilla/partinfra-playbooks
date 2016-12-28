@@ -43,6 +43,10 @@ frontend http-in
         use_backend {{ $srv.name }}-backend if {{ $srv.name }}-aclrule
         {{ end }}
 
+        # Logs ES proxy
+        acl infra-logs-es-aclrule hdr(host) -i infra-logs-es.ops.mozilla.community
+        use_backend infra-logs-es-backend if infra-logs-es-aclrule
+
 {{ range $srv := key "admin-proxy/services" | parseJSON }}
 backend {{ $srv.name }}-backend
         balance leastconn
@@ -56,3 +60,6 @@ backend {{ $srv.name }}-backend
         {{- end }}
         {{- end }}
 {{ end }}
+
+backend infra-logs-es-backend
+        server infra-logs-es search-infra-logs-es-pke4dh3po6l2vomgxsj2x57b6a.us-east-1.es.amazonaws.com:443
