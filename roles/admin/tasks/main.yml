@@ -1,9 +1,17 @@
 ---
 
-- name: Enable haproxy ppa
+- name: Enable haproxy 1.6 ppa
+  apt_repository:
+    repo: "ppa:vbernat/haproxy-1.6"
+    state: present
+  tags:
+    - haproxy
+    - admin
+
+- name: Disable haproxy 1.5 ppa
   apt_repository:
     repo: "ppa:vbernat/haproxy-1.5"
-    state: present
+    state: absent
   tags:
     - haproxy
     - admin
@@ -65,10 +73,20 @@
     - admin
     - consul-template
 
-- name: Install haproxy
+- name: Remove haproxy 1.5
   apt:
-    name: "haproxy"
+    name: "haproxy=1.5*"
+    state: absent
+
+  tags:
+    - admin
+    - haproxy
+
+- name: Install haproxy 1.6
+  apt:
+    name: "haproxy=1.6*"
     state: present
+
   tags:
     - admin
     - haproxy
