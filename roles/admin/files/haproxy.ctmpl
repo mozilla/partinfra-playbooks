@@ -66,6 +66,6 @@ backend {{ $srv.name }}-backend
 {{ end }}
 
 backend infra-logs-es-backend
-        {{ with key "admin-proxy/infra-logs-es" }}
-        server infra-logs-es {{ .endpoint }}:{{ .port }} check resolvers localcache resolve-prefer ipv4 ssl ca-file {{ .ca-file }}
+        {{ with ls "admin-proxy/infra-logs-es" | explode }}
+        server infra-logs-es {{ .endpoint }}:{{ .port }} check resolvers localcache resolve-prefer ipv4 ssl ca-file {{ .ca_file }}
         {{ end }}
