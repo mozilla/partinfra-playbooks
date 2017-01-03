@@ -1,0 +1,2 @@
+logstash_handler_host: "127.0.0.1"
+logstash_handler_port: "5514"

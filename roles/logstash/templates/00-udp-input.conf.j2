@@ -1,0 +1,7 @@
+input {
+    udp{
+        port => {{ logstash_udp_port }}
+        codec => "json"
+        type => "sensu"
+    }
+}

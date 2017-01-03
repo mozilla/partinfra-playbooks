@@ -41,13 +41,16 @@
     - sensu
     - sensu-master
 
-- name: Add VictorOps configuration
+- name: Add sensu handlers configuration
   template:
-    src: victorops_handler.json.j2
-    dest: /etc/sensu/conf.d/victorops_handler.json
+    src: "{{ item }}"
+    dest: "/etc/sensu/conf.d/{{ item | replace('json.j2', 'json') }}"
     owner: root
     group: root
     mode: 0644
+  with_items:
+    - logstash_handler.json.j2
+    - victorops_handler.json.j2
   notify:
   - restart sensu-server
   - restart sensu-api

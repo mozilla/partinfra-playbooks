@@ -54,6 +54,14 @@
     - sensu-master
     - monitoring
 
+- hosts: logstash
+  sudo: yes
+  roles:
+    - logstash
+  tags:
+    - logstash
+    - logging
+
 - hosts: openvpn
   sudo: yes
   roles:

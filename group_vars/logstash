@@ -1,0 +1,2 @@
+logstash_udp_port: "5514"
+infra_logs_es_endpoint: "https://search-infra-logs-es-pke4dh3po6l2vomgxsj2x57b6a.us-east-1.es.amazonaws.com"
