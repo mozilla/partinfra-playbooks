@@ -10,6 +10,18 @@
   with_items:
     - { 'user':'ubuntu','key':'https://github.com/LeoMcA.keys' }
 
+- name: Configure docker daemon
+  template:
+    src: docker_daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart docker
+  tags:
+    - docker
+
 - name: Stop and disable zookeeper in slave nodes
   service:
     name: zookeeper
