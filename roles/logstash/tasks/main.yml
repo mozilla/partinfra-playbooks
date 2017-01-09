@@ -1,8 +1,8 @@
 ---
 - name: Add logstash apt repository key
   apt_key:
-    keyserver: "p80.pool.sks-keyservers.net"
-    id: "0D69E11F12BDBA077B3726AB4E1F799AA4FF2279"
+    url: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+    state: present
   tags:
     - logstash
 
