@@ -1,0 +1,5 @@
+output {
+    elasticsearch {
+        hosts => ["{{ infra_logs_es_endpoint }}"]
+    }
+}

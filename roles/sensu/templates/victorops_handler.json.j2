@@ -1,12 +1,12 @@
 {
-  "handlers": {
-     "victorops": {
-       "type": "pipe",
-       "command": "handler-victorops.rb"
-     }
-   },
-  "victorops": {
-    "api_url": "{{ victorops_api_url }}",
-    "routing_key": "{{ victorops_routing_key }}"
-  }
+    "handlers": {
+        "victorops": {
+            "type": "pipe",
+            "command": "handler-victorops.rb"
+        }
+    },
+    "victorops": {
+        "api_url": "{{ victorops_api_url }}",
+        "routing_key": "{{ victorops_routing_key }}"
+    }
 }

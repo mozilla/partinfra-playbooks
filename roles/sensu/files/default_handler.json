@@ -1,10 +1,11 @@
 {
-  "handlers": {
-    "default": {
-      "type": "set",
-      "handlers": [
-        "victorops"
-      ]
+    "handlers": {
+        "default": {
+            "type": "set",
+            "handlers": [
+                "victorops",
+                "logstash"
+            ]
+        }
     }
-  }
 }

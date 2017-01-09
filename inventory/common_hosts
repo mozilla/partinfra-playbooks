@@ -12,6 +12,9 @@ tag_app_consul
 [sensu:children]
 tag_app_consul
 
+[logstash:children]
+tag_app_consul
+
 [admin:children]
 tag_Name_admin
 

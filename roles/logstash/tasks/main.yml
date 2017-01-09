@@ -33,3 +33,36 @@
     enabled: yes
   tags:
     - logstash
+
+- name: Ensure the logstash configuration directory exists
+  file:
+    path: /etc/logstash/conf.d
+    state: directory
+  tags:
+    - logstash
+
+- name: Add logstash UDP input
+  file:
+    template:
+      src: 00-udp-input.conf.j2
+      dest: /etc/logstash/conf.d/00-udp-input.conf
+      owner: root
+      group: root
+      mode: 0644
+  tags:
+    - logstash
+  notify:
+    - restart logstash
+
+- name: Add logstash ES output
+  file:
+    template:
+      src: 10-elasticsearch-output.conf.j2
+      dest: /etc/logstash/conf.d/10-elasticsearch-output.conf
+      owner: root
+      group: root
+      mode: 0644
+  tags:
+    - logstash
+  notify:
+    - restart logstash

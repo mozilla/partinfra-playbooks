@@ -1,0 +1,11 @@
+{
+    "handlers": {
+        "logstash": {
+            "type": "udp",
+            "socket": {
+                "host": "{{ logstash_handler_host }}",
+                "port": "{{ logstash_handler_port }}"
+            }
+        }
+    }
+}
