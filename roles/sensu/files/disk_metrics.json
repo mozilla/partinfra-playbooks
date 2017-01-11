@@ -1,6 +1,6 @@
 {
   "checks": {
-    "load_metrics": {
+    "disk_metrics": {
       "type": "metric",
       "command": "metrics-disk.rb",
       "subscribers": [
