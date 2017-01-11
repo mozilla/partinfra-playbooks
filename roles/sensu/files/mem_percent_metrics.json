@@ -1,6 +1,6 @@
 {
   "checks": {
-    "load_metrics": {
+    "memory_metrics": {
       "type": "metric",
       "command": "metrics-memory-percent.rb",
       "subscribers": [
