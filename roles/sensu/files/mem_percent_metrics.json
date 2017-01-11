@@ -2,7 +2,7 @@
   "checks": {
     "load_metrics": {
       "type": "metric",
-      "command": "metrics-load.rb",
+      "command": "metrics-memory-percent.rb",
       "subscribers": [
         "common"
       ],
