@@ -7,7 +7,9 @@
         "common"
       ],
       "interval": 10,
-      "handle": false
+      "handlers": [
+        "logstash"
+      ]
     }
   }
 }

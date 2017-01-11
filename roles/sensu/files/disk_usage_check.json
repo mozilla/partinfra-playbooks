@@ -6,7 +6,10 @@
       "subscribers": [
         "common"
       ],
-      "interval": 60
+      "interval": 60,
+      "handlers": [
+        "victorops"
+      ]
     }
   }
 }
