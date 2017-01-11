@@ -3,7 +3,6 @@
         "default": {
             "type": "set",
             "handlers": [
-                "victorops",
                 "logstash"
             ]
         }
