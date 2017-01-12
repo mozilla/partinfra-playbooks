@@ -1,0 +1,36 @@
+global
+        log /dev/log    local0
+        log /dev/log    local1 notice
+        chroot /var/lib/haproxy
+        maxconn 4000
+        stats socket /run/haproxy/admin.sock mode 660 level admin
+        stats timeout 30s
+        user haproxy
+        group haproxy
+        daemon
+
+defaults
+        log     global
+        mode    tcp
+        timeout connect 5000
+        timeout client  500000
+        timeout server  500000
+
+{{- $aws_env := env "AWS_ENV" }}
+{{ range services -}}
+{{- if .Tags.Contains $aws_env }}
+{{- $service_port_key := (print "services/" .Name "/" $aws_env "/port") -}}
+{{- $service_port := (key_or_default $service_port_key "") -}}
+{{- if $service_port }}
+listen {{ .Name }}
+        bind    0.0.0.0:{{ $service_port }}
+        mode    tcp
+        option  clitcpka
+        balance roundrobin
+    {{- $env_services := (print $aws_env "." .Name) }}
+    {{ range service $env_services  }}
+        server  {{.ID}} {{ .NodeAddress }}:{{ .Port }} check
+    {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

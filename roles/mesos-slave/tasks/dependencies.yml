@@ -79,3 +79,19 @@
     state: present
   tags:
     - mesos
+
+- name: Enable haproxy ppa
+  apt_repository:
+    repo: "ppa:vbernat/haproxy-1.6"
+    state: present
+  tags:
+    - haproxy
+    - consul-template
+
+- name: Install haproxy
+  apt:
+    name: "haproxy"
+    state: present
+  tags:
+    - haproxy
+    - consul-template

@@ -1,0 +1,7 @@
+consul = "{{ ansible_default_ipv4['address'] }}:8500"
+
+template {
+  source = "/etc/consul-template.d/templates/haproxy.ctmpl"
+  destination = "/etc/haproxy/haproxy.cfg"
+  command = "service haproxy restart"
+}
