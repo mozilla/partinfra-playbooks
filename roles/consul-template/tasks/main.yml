@@ -7,7 +7,8 @@
   tags:
     - consul-template
 
-- stat:
+- name: Check if the target version of consul-template already exists
+  stat:
     path: "/tmp/consul_template_{{ consul_template_version }}.zip"
   register: consul_template_ver_local
   tags:
