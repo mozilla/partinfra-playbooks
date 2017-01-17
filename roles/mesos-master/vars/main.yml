@@ -4,4 +4,3 @@ quorum: 2
 task_launch_timeout: 300000
 gopath: '/usr/share/go'
 marathon_event_subscriber: 'http_callback'
-consul_template_version: '0.14.0'
