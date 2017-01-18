@@ -1,0 +1,56 @@
+---
+
+- name: Install NFS client
+  apt:
+    name: "nfs-common"
+    state: present
+  tags:
+    - grafana
+    - logging
+
+- name: Ensure EFS volume mountpoint exists
+  file:
+    path: "{{ grafana_efs_mountpoint }}"
+    state: directory
+  tags:
+    - grafana
+    - logging
+
+- name: Mount EFS target for persistent app storage
+  mount:
+    name: "{{ grafana_efs_mountpoint }}"
+    src: "{{ ansible_ec2_placement_availability_zone }}.{{ grafana_filesystem_id }}.efs.{{ ec2_region }}.amazonaws.com:/"
+    fstype: nfs4
+    state: mounted
+  tags:
+    - grafana
+    - logging
+
+- name: Ensure Grafana directories exist
+  file:
+    path: "{{ grafana_efs_mountpoint }}/{{ item }}"
+    state: directory
+  with_items:
+    - "data"
+    - "config"
+  tags:
+    - grafana
+    - logging
+
+- name: Run Grafana docker instance
+  docker:
+    name: grafana
+    image: grafana/grafana:{{ grafana_version }}
+    state: reloaded
+    pull: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - "{{ grafana_efs_mountpoint }}/data:/var/lib/grafana"
+      - "{{ grafana_efs_mountpoint }}/config:/etc/grafana"
+    env:
+      GF_SECURITY_ADMIN_PASSWORD: {{ grafana_admin_password }}
+    restart_policy: always
+    tags:
+      - grafana
+      - logging
