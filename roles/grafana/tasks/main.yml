@@ -49,7 +49,7 @@
       - "{{ grafana_efs_mountpoint }}/data:/var/lib/grafana"
       - "{{ grafana_efs_mountpoint }}/config:/etc/grafana"
     env:
-      GF_SECURITY_ADMIN_PASSWORD: {{ grafana_admin_password }}
+      GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_admin_password }}"
     restart_policy: always
     tags:
       - grafana

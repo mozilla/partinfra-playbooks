@@ -14,9 +14,11 @@
     - admin
     - jenkins
     - docker-registry
+    - grafana
   tags:
     - admin
     - jenkins
+    - grafana
   vars:
     jenkins_efs_mountpoint: '/opt/jenkins'
     jenkins_filesystem_id: 'fs-1766af5e'
