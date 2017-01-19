@@ -49,6 +49,7 @@
       MYSQL_DATABASE: "grafana"
       MYSQL_USER: "{{ grafana_mysql_user }}"
       MYSQL_PASSWORD: "{{ grafana_mysql_password }}"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     restart_policy: always
   tags:
     - grafana
