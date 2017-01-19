@@ -18,3 +18,8 @@
     name: consul
     enabled: yes
     state: restarted
+
+- name: restart consul-template
+  service:
+    name: consul-template
+    state: restarted

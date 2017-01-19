@@ -104,6 +104,39 @@
   tags:
     - docker
 
+- name: Make sure haproxy folder exists
+  file:
+    path: /var/run/haproxy
+    state: directory
+  tags:
+    - haproxy
+
+- name: Add consul-template configuration
+  template:
+    src: consul_template_config.j2
+    dest: /etc/consul-template.d/config
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul-template
+  tags:
+    - haproxy
+    - consul-template
+
+- name: Add haproxy config template
+  copy:
+    src: haproxy.ctmpl
+    dest: /etc/consul-template.d/templates/haproxy.ctmpl
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart consul-template
+  tags:
+    - haproxy
+    - consul-template
+
 - name: Setup consul service and check definitions
   template:
     src: consul.json.j2
@@ -115,3 +148,4 @@
     - restart consul
   tags:
     - consul
+    - haproxy

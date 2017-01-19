@@ -15,5 +15,12 @@
       "timeout": "4s"
       }
     ]
+  },
+  {
+    "name": "haproxy-internal",
+    "id": "haproxy-internal-{{ ec2_id }}",
+    "tags": ["haproxy-internal", "{{ ec2_tag_env }}"],
+    "port": 1936,
+    "enableTagOverride": false
   }
 ]}
