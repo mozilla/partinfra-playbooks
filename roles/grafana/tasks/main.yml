@@ -69,7 +69,11 @@
       - "mysql-grafana"
     env:
       GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_admin_password }}"
-      GF_DATABASE_URL: "mysql://{{ grafana_mysql_user }}:{{ grafana_mysql_password }}@mysql-grafana:3306"
+      GF_DATABASE_TYPE: "mysql"
+      GF_DATABASE_HOST: "mysql-grafana:3306"
+      GF_DATABASE_NAME: "grafana"
+      GF_DATABASE_USER: "{{ grafana_mysql_user }}"
+      GF_DATABASE_PASSWORD: "{{ grafana_mysql_password }}"
     restart_policy: always
   tags:
     - grafana
