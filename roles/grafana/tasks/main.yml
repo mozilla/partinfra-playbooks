@@ -28,8 +28,28 @@
 
 - name: Ensure Grafana directories exist
   file:
-    path: "{{ grafana_efs_mountpoint }}/data"
+    path: "{{ grafana_efs_mountpoint }}/{{ item }}"
     state: directory
+  with_items:
+    - "data"
+    - "mysql"
+  tags:
+    - grafana
+    - logging
+
+- name: Run MySQL for grafana docker instance
+  docker:
+    name: mysql-grafana
+    image: mysql:{{ grafana_mysql_version }}
+    state: reloaded
+    pull: always
+    volumes:
+      - "{{ grafana_efs_mountpoint }}/mysql:/var/lib/mysql"
+    env:
+      MYSQL_DATABASE: "grafana"
+      MYSQL_USER: "{{ grafana_mysql_user }}"
+      MYSQL_PASSWORD: "{{ grafana_mysql_password }}"
+    restart_policy: always
   tags:
     - grafana
     - logging
@@ -44,8 +64,11 @@
       - "3000:3000"
     volumes:
       - "{{ grafana_efs_mountpoint }}/data:/var/lib/grafana"
+    links:
+      - "mysql-grafana"
     env:
       GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_admin_password }}"
+      GF_DATABASE_URL: "mysql://{{ grafana_mysql_user }}:{{ grafana_mysql_password }}@mysql-grafana:3306"
     restart_policy: always
   tags:
     - grafana
