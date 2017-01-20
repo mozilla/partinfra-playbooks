@@ -55,26 +55,18 @@
   tags:
     - logstash
 
-- name: Add logstash UDP input
+- name: Add logstash input/filter/output configuration
   template:
-    src: 00-udp-input.conf.j2
-    dest: /etc/logstash/conf.d/00-udp-input.conf
+    src: "{{ item }}"
+    dest: "/etc/logstash/conf.d/{{ item|replace('conf.j2', 'conf')"
     owner: root
     group: root
     mode: 0644
-  tags:
-    - logstash
+  with_items:
+    - 00-udp-input.conf.j2
+    - 10-elasticsearch-output.conf.j2
+    - 20-sensu-metrics-filter.conf.j2
   notify:
     - restart logstash
-
-- name: Add logstash ES output
-  template:
-    src: 10-elasticsearch-output.conf.j2
-    dest: /etc/logstash/conf.d/10-elasticsearch-output.conf
-    owner: root
-    group: root
-    mode: 0644
   tags:
     - logstash
-  notify:
-    - restart logstash
