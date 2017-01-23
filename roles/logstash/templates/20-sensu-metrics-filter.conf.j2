@@ -26,5 +26,22 @@ filter {
         mutate {
             convert => ["sensu_metric_value", "float"]
         }
+
+        ruby {
+            code =>
+            "
+            metric_name = event.get('sensu_metric_name')
+            metric_value = event.get('sensu_metric_value')
+            case metric_name
+              when Array
+                metric_name.each_with_index do |val, index|
+                  event.set('metric' + index.to_s, metric_value[index])
+                end
+              when String
+                event.set('metric0', metric_value)
+            end
+            "
+            remove_field => ['sensu_metric_name', 'sensu_metric_value']
+        }
     }
 }
