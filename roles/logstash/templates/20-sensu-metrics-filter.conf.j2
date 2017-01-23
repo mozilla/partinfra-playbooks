@@ -1,0 +1,30 @@
+filter {
+
+    if [type] == "sensu" and [check][type] == "metric" {
+
+        # Change event timestamp to the sensu check execution timestamp
+        date {
+            match => ["[check][executed]", "UNIX"]
+        }
+
+        # Workaround to the way logstash treats \n
+        mutate {
+            gsub => ["[check][output]", "\n", "LINE_BREAK"]
+        }
+
+        # Split graphite metrics from multiline to array
+        mutate {
+            split => ["[check][output]", "LINE_BREAK"]
+        }
+
+        # Parse graphite metrics
+        grok {
+            match => ["[check][output]", "%{DATA:sensu_metric_name} %{BASE16FLOAT:sensu_metric_value %{INT}"]
+        }
+
+        # Convert metric result to float
+        mutate {
+            convert => ["sensu_metric_value", "float"]
+        }
+    }
+}
