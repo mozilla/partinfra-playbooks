@@ -58,7 +58,7 @@
 - name: Add logstash input/filter/output configuration
   template:
     src: "{{ item }}"
-    dest: "/etc/logstash/conf.d/{{ item|replace('conf.j2', 'conf')"
+    dest: "/etc/logstash/conf.d/{{ item|replace('conf.j2', 'conf') }}"
     owner: root
     group: root
     mode: 0644
