@@ -13,6 +13,7 @@
       - { 'user':'ubuntu','key':'https://github.com/johngian.keys' }
       - { 'user':'ubuntu','key':'https://github.com/tannerfilip.keys' }
       - { 'user':'ubuntu','key':'https://github.com/flamingspaz.keys' }
+      - { 'user':'ubuntu','key':'https://github.com/akatsoulas.keys' }
 
   - name: Add env var with AWS `env` tag value
     lineinfile:
