@@ -1,7 +1,7 @@
 ---
 
 - hosts: all
-  sudo: yes
+  become: true
   roles:
     - tersmitten.postfix
     - common
@@ -9,7 +9,7 @@
     - jnv.unattended-upgrades
 
 - hosts: admin
-  sudo: yes
+  become: true
   roles:
     - admin
     - jenkins
@@ -24,7 +24,7 @@
     jenkins_filesystem_id: 'fs-1766af5e'
 
 - hosts: jenkins-public
-  sudo: yes
+  become: true
   roles:
     - jenkins
   tags:
@@ -49,7 +49,7 @@
     - always
 
 - hosts: sensu
-  sudo: yes
+  become: true
   roles:
     - sensu
   tags:
@@ -57,7 +57,7 @@
     - monitoring
 
 - hosts: logstash
-  sudo: yes
+  become: true
   roles:
     - logstash
   tags:
@@ -65,7 +65,7 @@
     - logging
 
 - hosts: openvpn
-  sudo: yes
+  become: true
   roles:
     - openvpn-firewall
     - Stouts.openvpn
@@ -73,7 +73,7 @@
     - openvpn
 
 - hosts: mesos-master
-  sudo: yes
+  become: true
   roles:
     - mesos-common
     - mesos-master
@@ -81,7 +81,7 @@
     - mesos-master
 
 - hosts: mesos-slave
-  sudo: yes
+  become: true
   roles:
     - mesos-common
     - mesos-slave
