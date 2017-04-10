@@ -35,6 +35,7 @@
     - disk_usage_check.json
     - disk_metrics.json
     - mem_percent_metrics.json
+    - mig_check.json
   notify:
     - restart sensu-api
     - restart sensu-server

@@ -7,6 +7,7 @@
     - common
     - consul
     - jnv.unattended-upgrades
+    - security
 
 - hosts: admin
   become: true

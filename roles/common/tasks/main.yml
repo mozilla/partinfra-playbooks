@@ -39,6 +39,7 @@
       - build-essential
       - ntp
       - apt-transport-https
+      - python-boto
     tags:
       - common
 
@@ -147,6 +148,7 @@
       - sensu-plugins-memory-checks
       - sensu-plugins-consul
       - sensu-plugins-victorops
+      - sensu-plugins-http
     tags:
       - monitoring
       - sensu-client
