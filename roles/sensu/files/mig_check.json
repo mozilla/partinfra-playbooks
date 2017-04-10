@@ -1,13 +1,12 @@
 {
     "checks": {
         "mig_check": {
-            "command": "check-http.rb -u http://127.0.0.1/pid -P 51664"
-        },
-        "subscribers": [
-            "common"
-        ],
-        "handlers": [
-            "victorops"
-        ]
+            "handle": false,
+            "command": "check-http.rb -u http://127.0.0.1/pid -P 51664",
+            "subscribers": [
+                "common"
+            ],
+            "interval": 60
+        }
     }
 }
