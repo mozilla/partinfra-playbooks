@@ -39,6 +39,7 @@
       - build-essential
       - ntp
       - apt-transport-https
+      - python-boto
     tags:
       - common
 
