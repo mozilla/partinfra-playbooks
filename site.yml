@@ -4,6 +4,7 @@
   become: true
   roles:
     - tersmitten.postfix
+    - docker
     - common
     - consul
     - jnv.unattended-upgrades

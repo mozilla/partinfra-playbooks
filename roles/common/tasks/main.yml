@@ -170,3 +170,24 @@
       state: started
     tags:
       - common
+
+  - name: Pull docker image for fluentd-sns-mozdef integration
+    docker_image:
+      name: "{{ fluentd_sns_image }}"
+    tags:
+      - common
+      - mozdef
+
+  - name: Run docker for fluentd-sns-mozdef integration
+    docker_container:
+      name: ansible-fluentd-sns
+      image: "{{ fluentd_sns_image }}"
+      command: td-agent
+      volumes:
+        - /var/log:/srv/logs
+      env:
+          SNS_TOPIC: "{{ fluentd_sns_topic }}"
+          SNS_REGION: "{{ fluentd_sns_region }}"
+    tags:
+      - common
+      - mozdef
