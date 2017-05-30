@@ -1,0 +1,5 @@
+---
+
+fluentd_sns_image: docker-registry.ops.mozilla.community:443/ansible-fluentd:2017.05-3
+fluentd_sns_topic: parsys-logs-mozdef
+fluentd_sns_region: us-west-2
