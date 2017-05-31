@@ -2,7 +2,7 @@
   "checks":
   {
     "cpu_check": {
-      "command": "check-load.rb -p -c 3,6,9 -w 2,4,6",
+      "command": "check-load.rb -c 6,12,18 -w 4,8,12",
       "subscribers": [
         "common"
       ],
