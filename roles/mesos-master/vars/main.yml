@@ -1,6 +1,6 @@
 ---
 # vars file for master
-quorum: 2
+quorum: "{{ 2 if ec2_tag_environment == 'production' else 1 }}"
 task_launch_timeout: 300000
 gopath: '/usr/share/go'
 marathon_event_subscriber: 'http_callback'
