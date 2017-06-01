@@ -9,7 +9,7 @@
 
   - name: Install mesosphere deb repository
     apt_repository:
-      repo: "deb http://repos.mesosphere.io/ubuntu trusty main"
+      repo: "deb http://repos.mesosphere.io/ubuntu {{ ansible_distribution_release }} main"
       state: present
     tags:
       - mesos
