@@ -76,7 +76,7 @@
 - name: Install mesos
   apt:
     name: mesos
-    state: present
+    state: latest
   tags:
     - mesos
 
