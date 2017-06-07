@@ -41,23 +41,24 @@
   tags:
     - zookeeper
 
-- name: Install zookeeper
+- name: Install zookeeper and mesos
   apt:
     name: "{{ item }}"
-    state: present
+    state: latest
   with_items:
     - zookeeper
     - zookeeperd
-  tags:
-    - zookeeper
-
-- name: Install mesosphere
-  apt:
-    name: mesosphere
-    state: present
+    - mesos
+    - marathon
+    - chronos
+  notify:
+    - restart zookeeper
+    - restart mesos-master
+    - restart marathon
   tags:
     - mesos
     - marathon
+    - zookeeper
 
 - name: Install haproxy
   apt:
