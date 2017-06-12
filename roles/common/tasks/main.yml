@@ -4,6 +4,7 @@
     tags:
       - storage
       - efs
+      - mesos
 
   - name: install ssh keys
     authorized_key:
