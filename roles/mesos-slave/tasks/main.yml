@@ -86,15 +86,28 @@
   tags:
     - mesos
 
+- name: Ensure Mesos attributes folder exists
+  file:
+    path: "/etc/mesos-slave/attributes"
+    state: directory
+  tags:
+    - mesos
+
 - name: Set attributes for mesos-slave
-  template:
-    src: attributes.j2
-    dest: /etc/mesos-slave/attributes
+  copy:
+    content: "{{ item.value }}"
+    dest: "/etc/mesos-slave/attributes/{{ item.key }}"
     owner: root
     group: root
     mode: 0644
+  with_items:
+    - { 'key':'region','value':"{{ ec2_region }}" }
+    - { 'key':'availability_zone','value':"{{ ansible_ec2_placement_availability_zone }}" }
+    - { 'key':'cluster','value':"{{ ec2_tag_cluster }}" }
+    - { 'key':'instance_type','value':"{{ ec2_instance_type }}" }
+    - { 'key':'image_id','value':"{{ ec2_image_id }}" }
   notify:
-    - restart mesos-slave
+    - remove slave state
   tags:
     - mesos
 

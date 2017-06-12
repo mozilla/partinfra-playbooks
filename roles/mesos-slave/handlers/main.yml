@@ -1,6 +1,13 @@
 ---
 # handlers file for slave
 
+- name: remove slave state
+  file:
+    path: "/var/lib/mesos/meta/slaves/latest"
+    state: absent
+  notify:
+    - restart mesos-slave
+
 - name: restart mesos-slave
   service:
     name: mesos-slave
