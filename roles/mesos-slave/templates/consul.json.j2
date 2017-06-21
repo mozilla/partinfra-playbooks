@@ -19,7 +19,7 @@
   {
     "name": "haproxy-internal",
     "id": "haproxy-internal-{{ ec2_id }}",
-    "tags": ["haproxy-internal", "{{ ec2_tag_env }}"],
+    "tags": ["haproxy-internal", "{{ ec2_tag_env }}", "{{ ec2_tag_env }}-{{ ec2_tag_cluster }}"],
     "port": 1936,
     "enableTagOverride": false
   }
