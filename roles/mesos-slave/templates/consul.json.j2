@@ -3,7 +3,7 @@
   {
     "name": "mesos-slave",
     "id": "mesos-slave-{{ ec2_id }}",
-    "tags": ["mesos-slave", "mesos", "{{ ec2_tag_env }}", "{{ ec2_tag_env }}-${{ ec2_tag_cluster }}"],
+    "tags": ["mesos-slave", "mesos", "{{ ec2_tag_env }}", "{{ ec2_tag_env }}-{{ ec2_tag_cluster }}"],
     "port": 5051,
     "enableTagOverride": false,
     "checks": [
