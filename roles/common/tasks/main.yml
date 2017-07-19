@@ -184,6 +184,7 @@
       name: ansible-fluentd-sns
       image: "{{ fluentd_sns_image }}"
       command: td-agent
+      restart_policy: always
       volumes:
         - /var/log:/srv/logs
       env:
