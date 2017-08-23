@@ -2,3 +2,4 @@
 
 dependencies:
   - { role: consul-template }
+  - { role: docker }
