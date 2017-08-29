@@ -18,7 +18,7 @@ defaults
 
 {{- $aws_env := env "AWS_ENV" }}
 {{ range services -}}
-{{- if .Tags.Contains $aws_env }}
+{{- if .Tags | Contains $aws_env }}
 {{- $service_port_key := (print "services/" .Name "/" $aws_env "/port") -}}
 {{- $service_port := (key_or_default $service_port_key "") -}}
 {{- if $service_port }}
