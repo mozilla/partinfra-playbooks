@@ -60,7 +60,7 @@ frontend http-in
 
         # Services
         {{- range services -}}
-        {{- if and (.Tags | Contains "public") (.Tags | Contains $aws_env) }}
+        {{- if and (.Tags | contains "public") (.Tags | contains $aws_env) }}
         acl {{ .Name }}-aclrule hdr(host) -i {{.Name}}.{{ template "PAAS_FQDN" }}
         use_backend {{ .Name }}-backend if {{ .Name }}-aclrule
 
@@ -76,7 +76,7 @@ frontend http-in
         {{ end -}}
 
 {{ range services -}}
-{{- if and (.Tags | Contains "public") (.Tags | Contains $aws_env) }}
+{{- if and (.Tags | contains "public") (.Tags | contains $aws_env) }}
 backend {{ .Name }}-backend
         balance leastconn
         option httpclose
