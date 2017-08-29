@@ -87,6 +87,5 @@
   roles:
     - mesos-common
     - mesos-slave
-    - metadata-proxy
   tags:
     - mesos-slave
