@@ -60,23 +60,21 @@ frontend http-in
 
         # Services
         {{- range services -}}
-        {{- if and (.Tags | Contains "public") (.Tags | Contains $aws_env) }}
+        {{- if and (.Tags | contains "public") (.Tags | contains $aws_env) }}
         acl {{ .Name }}-aclrule hdr(host) -i {{.Name}}.{{ template "PAAS_FQDN" }}
         use_backend {{ .Name }}-backend if {{ .Name }}-aclrule
 
-
+        {{ $servicename := .Name -}}
         {{- $app_ha_rule := (print "apps/" .Name "/" $aws_env "/haproxy-rules") -}}
-        {{ if keyExists $app_ha_rule }}
         {{- range ls $app_ha_rule }}
-        acl {{ .Name }}-custom-aclrule hdr(host) -i {{ .Value }}
-        use_backend {{ .Name }}-backend if {{ .Name }}-custom-aclrule
-        {{ end }}
+        acl {{ $servicename }}-custom-aclrule hdr(host) -i {{ .Value }}
+        use_backend {{ $servicename }}-backend if {{ $servicename }}-custom-aclrule
         {{ end }}
         {{ end -}}
         {{ end -}}
 
 {{ range services -}}
-{{- if and (.Tags | Contains "public") (.Tags | Contains $aws_env) }}
+{{- if and (.Tags | contains "public") (.Tags | contains $aws_env) }}
 backend {{ .Name }}-backend
         balance leastconn
         option httpclose
