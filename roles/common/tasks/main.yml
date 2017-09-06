@@ -190,6 +190,7 @@
       env:
           SNS_TOPIC: "{{ fluentd_sns_topic }}"
           SNS_REGION: "{{ fluentd_sns_region }}"
+          IAM_ROLE: "mozdef-logs-role"
     tags:
       - common
       - mozdef
