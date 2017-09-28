@@ -61,6 +61,7 @@
   tags:
     - jenkins
     - startjenkins
+    - startinternaljenkins
   when:
     - ec2_tag_Name == "admin"
     - ec2_tag_app == "jenkins"
@@ -78,6 +79,7 @@
   tags:
     - jenkins
     - startjenkins
+    - startpublicjenkins
   when:
     - ec2_tag_Name == "jenkins-public"
     - ec2_tag_app == "jenkins"
