@@ -84,6 +84,30 @@
     - ec2_tag_Name == "jenkins-public"
     - ec2_tag_app == "jenkins"
 
+- name: Run public jenkins auth0 proxy
+  docker_container:
+    name: oidc-proxy
+    image: yalam96/mozilla-oidc-accessproxy
+    state: started
+    pull: true
+    ports:
+      - "8081:80"
+    restart_policy: always
+    env:
+      discovery_url: "https://auth.mozilla.auth0.com/.well-known/openid-configuration"
+      backend: "http://{{ ansible_default_ipv4['address'] }}:8080"
+      client_id: "{{ public_proxy_client_id }}"
+      client_secret: "{{ public_proxy_client_secret }}"
+      allowed_group: "mozilliansorg_parsys-public-jenkins-access"
+  tags:
+    - jenkins
+    - startjenkins
+    - startpublicjenkins
+    - jenkins-proxy
+  when:
+    - ec2_tag_Name == "jenkins-public"
+    - ec2_tag_app == "jenkins"
+
 - name: Setup internal consul service and check definitions
   template:
     src: consul.json.j2
