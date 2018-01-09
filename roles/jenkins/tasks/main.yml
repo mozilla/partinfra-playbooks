@@ -98,7 +98,7 @@
       backend: "http://{{ ansible_default_ipv4['address'] }}:8080"
       client_id: "{{ public_proxy_client_id }}"
       client_secret: "{{ public_proxy_client_secret }}"
-      allowed_group: "mozilliansorg_parsys-public-jenkins-access"
+      allowed_groups: "mozilliansorg_parsys-public-jenkins-access,team_moco"
   tags:
     - jenkins
     - startjenkins
