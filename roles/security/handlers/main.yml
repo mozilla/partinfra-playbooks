@@ -1,6 +1,0 @@
----
-
-- name: restart mig
-  service:
-    name: mig
-    state: restarted
